@@ -1,11 +1,6 @@
-  @extends('layouts.app')
+ @extends('layouts.base')
+@section('content')
  <!-- BEGIN: Content-->
-    <div class="app-content content">
-        <div class="content-overlay"></div>
-        <div class="content-wrapper">
-            <div class="content-header row">
-            </div>
-            <div class="content-body">
                 <!-- reset password start -->
                 <section class="row flexbox-container">
                     <div class="col-xl-7 col-10">
@@ -45,8 +40,5 @@
                     </div>
                 </section>
                 <!-- reset password ends -->
-
-            </div>
-        </div>
-    </div>
     <!-- END: Content-->
+       @endsection

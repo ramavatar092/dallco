@@ -12,15 +12,9 @@
     <div class="shadow-bottom"></div>
     <div class="main-menu-content">
         <ul class="navigation navigation-main" id="main-menu-navigation" data-menu="menu-navigation" data-icon-style="">
-            <li class=" nav-item"><a href="index.html"><i class="bx bx-home-alt"></i><span class="menu-title" data-i18n="Dashboard">Dashboard</span><span class="badge badge-light-danger badge-pill badge-round float-right mr-2">2</span></a>
-                <ul class="menu-content">
-                    <li><a href="dashboard-ecommerce.html"><i class="bx bx-right-arrow-alt"></i><span class="menu-item" data-i18n="eCommerce">eCommerce</span></a>
-                    </li>
-                    <li class="active"><a href="dashboard-analytics.html"><i class="bx bx-right-arrow-alt"></i><span class="menu-item" data-i18n="Analytics">Analytics</span></a>
-                    </li>
-                </ul>
+            <li class=" nav-item"><a href="{{ route('dashboard') }}"><span class="menu-title" data-i18n="Dashboard">Dashboard</span></a>
             </li>
-            <li class=" navigation-header"><span>Apps</span>
+            {{--<li class=" navigation-header"><span>Apps</span>
             </li>
             <li class=" nav-item"><a href="app-email.html"><i class="bx bx-envelope"></i><span class="menu-title" data-i18n="Email">Email</span></a>
             </li>
@@ -189,18 +183,18 @@
             <li class=" nav-item"><a href="page-search.html"><i class="bx bx-search"></i><span class="menu-title" data-i18n="Search">Search</span></a>
             </li>
             <li class=" nav-item"><a href="page-account-settings.html"><i class="bx bx-wrench"></i><span class="menu-title" data-i18n="Account Settings">Account Settings</span></a>
-            </li>
+            </li>--}}
+
+
             <li class=" nav-item"><a href="#"><i class="bx bx-user-plus"></i><span class="menu-title" data-i18n="User">User</span></a>
                 <ul class="menu-content">
-                    <li><a href="page-users-list.html"><i class="bx bx-right-arrow-alt"></i><span class="menu-item" data-i18n="List">List</span></a>
-                    </li>
-                    <li><a href="page-users-view.html"><i class="bx bx-right-arrow-alt"></i><span class="menu-item" data-i18n="View">View</span></a>
-                    </li>
-                    <li><a href="page-users-edit.html"><i class="bx bx-right-arrow-alt"></i><span class="menu-item" data-i18n="Edit">Edit</span></a>
+                    <li><a href="{{ route('users.index') }}"><i class="bx bx-right-arrow-alt"></i><span class="menu-item" data-i18n="List">List</span></a>
                     </li>
                 </ul>
             </li>
-            <li class=" nav-item"><a href="#"><i class="bx bx-building"></i><span class="menu-title" data-i18n="Starter kit">Starter kit</span></a>
+
+
+            {{--<li class=" nav-item"><a href="#"><i class="bx bx-building"></i><span class="menu-title" data-i18n="Starter kit">Starter kit</span></a>
                 <ul class="menu-content">
                     <li><a href="../../../starter-kit/ltr/vertical-menu-boxicons-template/sk-layout-1-column.html"><i class="bx bx-right-arrow-alt"></i><span class="menu-item" data-i18n="1 column">1 column</span></a>
                     </li>
@@ -307,7 +301,7 @@
             <li class=" nav-item"><a href="https://pixinvent.com/demo/frest-clean-bootstrap-admin-dashboard-template/documentation" target="_blank"><i class="bx bx-folder"></i><span class="menu-title" data-i18n="Documentation">Documentation</span></a>
             </li>
             <li class=" nav-item"><a href="https://pixinvent.ticksy.com/" target="_blank"><i class="bx bx-purchase-tag-alt"></i><span class="menu-title" data-i18n="Raise Support">Raise Support</span></a>
-            </li>
+            </li>--}}
         </ul>
     </div>
 </div>

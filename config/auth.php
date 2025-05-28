@@ -36,11 +36,6 @@ return [
     */
 
     'guards' => [
-        'admin' => [
-            'driver' => 'session',
-            'provider' => 'admins',
-        ],
-
         'web' => [
             'driver' => 'session',
             'provider' => 'users',
@@ -64,27 +59,12 @@ return [
     |
     */
     
-
-    'guards' => [
-    'admin' => [
-        'driver' => 'session',
-        'provider' => 'admins',
-    ],
-],
-
-'providers' => [
-    'admins' => [
-        'driver' => 'eloquent',
-        'model' => App\Models\AppAdmin::class,
-    ],
-],
-
-
-        // 'users' => [
-        //     'driver' => 'database',
-        //     'table' => 'users',
-        // ],
-    
+    'providers' => [
+        'users' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\AppAdmin::class, // <-- use AppAdmin instead of User
+        ],
+    ],   
 
     /*
     |--------------------------------------------------------------------------

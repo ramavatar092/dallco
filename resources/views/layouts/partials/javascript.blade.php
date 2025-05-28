@@ -8,6 +8,7 @@
 <!-- BEGIN: Page Vendor JS-->
 <script src="{{ asset('app-assets/vendors/js/charts/apexcharts.min.js') }}"></script>
 <script src="{{ asset('app-assets/vendors/js/extensions/dragula.min.js') }}"></script>
+<script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
 <!-- END: Page Vendor JS-->
 
 <!-- BEGIN: Theme JS-->

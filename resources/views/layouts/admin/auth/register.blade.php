@@ -1,10 +1,6 @@
-@extends('layouts.app')
+@extends('layouts.base')
+@section('content')
 <!-- BEGIN: Content-->
-    <div class="app-content content">
-        <div class="content-overlay"></div>
-        <div class="content-wrapper">
-            <div class="content-header row">
-            </div>
             <div class="content-body">
                 <!-- register section starts -->
                 <section class="row flexbox-container">
@@ -62,8 +58,6 @@
                         </div>
                     </div>
                 </section>
-                <!-- register section endss -->
-            </div>
-        </div>
-    </div>
+                <!-- register section endss -->       
     <!-- END: Content-->
+       @endsection
