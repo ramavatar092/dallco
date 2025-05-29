@@ -6,8 +6,9 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Http\Requests\User\StoreRequest;
 use App\Http\Requests\User\UpdateRequest;
-use App\Models\User;
+use Illuminate\Support\Facades\Validator;
 use App\DataTables\UsersDataTable;
+use App\Models\User;
 
 class UserController extends Controller
 {
@@ -81,25 +82,38 @@ class UserController extends Controller
     public function destroy(User $user)
     {
         $user->delete();
-
-        $notification = array(
-            'message' => trans('panel.message.delete'),
-            'alert-type' =>  trans('panel.alert-type.success')
-        );
-
-        return redirect()->route('users.index')->with($notification);
+        return response()->json(['success' => true, 'message' => trans('panel.message.delete')], 200);
     }
 
-    public function toggleStatus($id)
+    /**
+     * update the status
+     * @param  request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function updateStatus(Request $request)
     {
-        $user = User::findOrFail($id);
+        $validator = Validator::make($request->all(), [
+            'user_id' => 'required|exists:users,id',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'success' => false,
+                'errors'  => $validator->errors(),
+                'message' => 'Validation error occurred!',
+            ], 422);
+        }
+
+        $user = User::find($request->user_id);
+
+        // Ensure status is either 'active' or 'deactive'
         $user->status = $user->status === 'active' ? 'deactive' : 'active';
         $user->save();
 
         return response()->json([
             'success' => true,
-            'status' => $user->status
+            'message' => trans('panel.message.status') ?? 'Status updated successfully!',
+            'status'  => $user->status
         ]);
     }
-
 }

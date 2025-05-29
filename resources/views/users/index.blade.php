@@ -14,59 +14,8 @@
                 </div>
 
                 <div class="card-body">
-<<<<<<< Updated upstream
-                    <div class="table-responsive">
-                        <table id="users-list-datatable" class="table">
-                            <thead>
-    <tr>
-        <th>{{ __('Id') }}</th>
-        <th>{{ __('Mobile') }}</th>
-        <th>{{ __('Name') }}</th>
-        <th>{{ __('State') }}</th>
-        <th>{{ __('Register Date') }}</th>
-        <th>{{ __('Account Balance') }}</th>
-        <th></th>
-    </tr>
-</thead>
-<tbody>
-    @foreach($users as $key => $user)
-        <tr>
-            <td>{{ $key + 1 }}</td>
-            <td>{{ $user->user_mobile }}</td>
-            <td>{{ $user->name }}</td>
-            <td>{{ $user->state }}</td>
-            <td>{{ \Carbon\Carbon::parse($user->register_date)->format('d/m/Y') }}</td>
-            <td>{{ $user->account_balance }}</td>
-            <td class="d-flex gap-2 flex-wrap">
-                <span class="btn btn-sm btn-primary me-1" data-id="{{ $user->id }}" data-status="{{ $user->status }}">
-                    {{ $user->status ? 'Deactivate' : 'Activate' }}
-                </span>
-                <span class="btn btn-sm btn-primary me-1">
-                     Scan Log
-                </span>
-                <span class="btn btn-sm btn-primary me-1">
-                    Transactions
-                </span>
-                <a href="{{ route('users.edit', $user->id) }}" class="btn btn-sm btn-outline-primary me-1" title="Edit">
-                    <i class="fas fa-edit"></i>
-                </a>
-                <form action="{{ route('users.destroy', $user->id) }}" method="POST" onsubmit="return confirm('Are you sure you want to delete this user?');">
-                    @csrf
-                    @method('DELETE')
-                    <button type="submit" class="btn btn-sm btn-outline-danger" title="Delete">
-                        <i class="fas fa-trash-alt"></i>
-                    </button>
-                </form>
-            </td>
-        </tr>
-    @endforeach
-</tbody>
-
-                        </table>
-=======
-                    <div class="table table-bordered table-striped table-fixed table-responsive">
+                    <div class="table table-striped table-fixed table-responsive">
                         {{ $dataTable->table() }}
->>>>>>> Stashed changes
                     </div>
                 </div>
             </div>
@@ -77,4 +26,94 @@
 
 @push('scripts')
     {{ $dataTable->scripts() }}
+    <script>
+        $(document).on('change click', '#deleteBtn', function(e) {
+            e.preventDefault();
+            var id = $(this).data('id');
+            var url = $(this).data('url');
+            Swal.fire({
+                title: "{{ trans('global.areYouSure') }}",
+                text: "Do you want to delete this record?",
+                icon: "question",
+                showCancelButton: true,
+                confirmButtonText: `Delete`,
+            })
+            .then((result) => {
+                $('#pageloader').css('display', 'flex');
+                if (!result.isDismissed) {
+                    $.ajax({
+                        type: "delete",
+                        url: url,
+                        data: {
+                            _token: '{{ csrf_token() }}',
+                            id: id
+                        },
+                        success: function(response) {
+                            toastr.success(response.message, 'Success!');
+                            $('table').DataTable().ajax.reload(null, false);       
+                        },
+                        error: function(response) {
+                            let errorMessages = '';
+                            $.each(response.responseJSON.errors, function(key, value) {
+                                $.each(value, function(i, message) {
+                                errorMessages += '<li>' + message + '</li>';
+                                });
+                            });
+                            toastr.error(errorMessages);
+                        },
+                        complete: function() {
+                            $('table').DataTable().ajax.reload(null, false);
+                        }
+                    });
+                } else {
+                    $('table').DataTable().ajax.reload(null, false);
+                    return false;
+                }
+            });
+        });
+
+        $(document).on('change click', '#updateStatus', function(e) {
+            e.preventDefault();
+            var user_id = $(this).attr("data-user-id");
+            Swal.fire({
+                title: "{{ trans('global.areYouSure') }}",
+                text: "Do you want to update status of this record?",
+                icon: "question",
+                showCancelButton: true,
+                confirmButtonText: `Update`,
+                })
+                .then((result) => {
+                    if (!result.isDismissed) {
+                        $.ajax({
+                            type: "POST",
+                            url: "{{route('users.updateStatus')}}",
+                            data: {
+                                _token: "{{csrf_token()}}",
+                                user_id: user_id,
+                            },
+                            success: function(response) {
+                                toastr.success(response.message, 'Success!');
+                                $('table').DataTable().ajax.reload(null, false);       
+                            },
+                            error: function(response) {
+                                let errorMessages = '';
+                                $.each(response.responseJSON.errors, function(key, value) {
+                                $.each(value, function(i, message) {
+                                    errorMessages += '<li>' + message + '</li>';
+                                });
+                                });
+                                toastr.error(errorMessages);
+                            },
+                            complete: function() {
+                                $('table').DataTable().ajax.reload(null, false);     
+                                return false;
+                            }
+                        });
+                    } else {
+                        $('table').DataTable().ajax.reload(null, false);
+                        return false;
+                    }
+                });
+            });
+    </script>
 @endpush

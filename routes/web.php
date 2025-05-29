@@ -15,10 +15,10 @@ Route::prefix('admin')->group(function () {
     Route::middleware(['auth'])->group(function () {
         Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
-        Route::post('/users/{id}/toggle-status', [UserController::class, 'toggleStatus']);
+        Route::post('users/update/stauts', [UserController::class, 'updateStatus'])->name('users.updateStatus');
         Route::resource('users', UserController::class);
 
-        Route::post('/coupons/{id}/toggle-status', [CouponController::class, 'toggleStatus']);
+        Route::post('coupons/update/stauts', [CouponController::class, 'updateStatus'])->name('coupons.updateStatus');
         Route::resource('coupons', CouponController::class);
         
 

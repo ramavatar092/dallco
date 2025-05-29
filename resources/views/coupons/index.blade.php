@@ -1,9 +1,9 @@
 @extends('layouts.app')
 
 @section('content')
-<section class="users-list-wrapper">
+<section class="coupons-list-wrapper">
     <!-- Coupons Table -->
-    <div class="users-list-table">
+    <div class="coupons-list-table">
         <div class="card">
             <div class="card-content">
                 <div class="card-header d-flex justify-content-between align-items-center">
@@ -14,57 +14,8 @@
                 </div>
 
                 <div class="card-body">
-                    <div class="table-responsive">
-                        <table id="coupons-list-datatable" class="table">
-                            <thead>
-                                <tr>
-                                    <th>{{ __('Id') }}</th>
-                                    <th>{{ __('Coupon Code') }}</th>
-                                    <th>{{ __('Added Date') }}</th>
-                                    <th>{{ __('Expiry Date') }}</th>
-                                    <th>{{ __('Amount') }}</th>
-                                    <th>{{ __('Status') }}</th>
-                                    <th>{{ __('Actions') }}</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach($coupons as $key => $coupon)
-                                    <tr>
-                                        <td>{{ $key + 1 }}</td>
-                                        <td>{{ $coupon->coupon_code }}</td>
-                                        <td>{{ \Carbon\Carbon::parse($coupon->coupon_date)->format('d/m/Y') }}</td>
-                                        <td>{{ \Carbon\Carbon::parse($coupon->coupon_expiry)->format('d/m/Y') }}</td>
-                                        <td>{{ $coupon->coupon_value }}</td>
-                                        <td>
-                                            <span class="badge bg-{{ $coupon->status ? 'success' : 'secondary' }} status-toggle"
-                                                  style="cursor: pointer;"
-                                                  data-id="{{ $coupon->id }}"
-                                                  data-status="{{ $coupon->status }}">
-                                                {{ $coupon->status ? 'Active' : 'Inactive' }}
-                                            </span>
-                                        </td>
-                                        <td class="d-flex gap-2">
-                                            <span class="btn btn-sm btn-secondary">
-                                                Scan Log
-                                            </span>
-
-                                            <a href="{{ route('coupons.edit', $coupon->id) }}" class="btn btn-sm btn-primary">
-                                                Edit
-                                            </a>
-
-                                            <form action="{{ route('coupons.destroy', $coupon->id) }}" method="POST" onsubmit="return confirm('Are you sure you want to delete this coupon?');">
-                                                @csrf
-                                                @method('DELETE')
-                                                <button type="submit" class="btn btn-sm btn-danger">
-                                                    Delete
-                                                </button>
-                                            </form>
-                                        </td>
-                                    </tr>
-                                @endforeach
-                            </tbody>
-                        </table>
-                        {{-- Pagination can go here if needed --}}
+                    <div class="table table-striped table-fixed table-responsive">
+                        {{ $dataTable->table() }}
                     </div>
                 </div>
             </div>
@@ -74,30 +25,95 @@
 @endsection
 
 @push('scripts')
-<script>
-    $(document).ready(function () {
-        $('#coupons-list-datatable').DataTable({
-            paging: false,
-            info: false,
-            responsive: true
-        });
-
-        $('.status-toggle').on('click', function () {
-            let couponId = $(this).data('id');
-            $.ajax({
-                url: '/coupons/' + couponId + '/toggle-status',
-                method: 'POST',
-                data: {
-                    _token: '{{ csrf_token() }}'
-                },
-                success: function (res) {
-                    location.reload();
-                },
-                error: function () {
-                    alert('Failed to update status');
+    {{ $dataTable->scripts() }}
+    <script>
+        $(document).on('change click', '#deleteBtn', function(e) {
+            e.preventDefault();
+            var id = $(this).data('id');
+            var url = $(this).data('url');
+            Swal.fire({
+                title: "{{ trans('global.areYouSure') }}",
+                text: "Do you want to delete this record?",
+                icon: "question",
+                showCancelButton: true,
+                confirmButtonText: `Delete`,
+            })
+            .then((result) => {
+                $('#pageloader').css('display', 'flex');
+                if (!result.isDismissed) {
+                    $.ajax({
+                        type: "delete",
+                        url: url,
+                        data: {
+                            _token: '{{ csrf_token() }}',
+                            id: id
+                        },
+                        success: function(response) {
+                            toastr.success(response.message, 'Success!');
+                            $('table').DataTable().ajax.reload(null, false);       
+                        },
+                        error: function(response) {
+                            let errorMessages = '';
+                            $.each(response.responseJSON.errors, function(key, value) {
+                                $.each(value, function(i, message) {
+                                errorMessages += '<li>' + message + '</li>';
+                                });
+                            });
+                            toastr.error(errorMessages);
+                        },
+                        complete: function() {
+                            $('table').DataTable().ajax.reload(null, false);
+                        }
+                    });
+                } else {
+                    $('table').DataTable().ajax.reload(null, false);
+                    return false;
                 }
             });
         });
-    });
-</script>
+
+        $(document).on('change click', '#updateStatus', function(e) {
+            e.preventDefault();
+            var coupon_id = $(this).attr("data-coupon-id");
+            Swal.fire({
+                title: "{{ trans('global.areYouSure') }}",
+                text: "Do you want to update status of this record?",
+                icon: "question",
+                showCancelButton: true,
+                confirmButtonText: `Update`,
+                })
+                .then((result) => {
+                    if (!result.isDismissed) {
+                        $.ajax({
+                            type: "POST",
+                            url: "{{route('coupons.updateStatus')}}",
+                            data: {
+                                _token: "{{csrf_token()}}",
+                                coupon_id: coupon_id,
+                            },
+                            success: function(response) {
+                                toastr.success(response.message, 'Success!');
+                                $('table').DataTable().ajax.reload(null, false);       
+                            },
+                            error: function(response) {
+                                let errorMessages = '';
+                                $.each(response.responseJSON.errors, function(key, value) {
+                                $.each(value, function(i, message) {
+                                    errorMessages += '<li>' + message + '</li>';
+                                });
+                                });
+                                toastr.error(errorMessages);
+                            },
+                            complete: function() {
+                                $('table').DataTable().ajax.reload(null, false);     
+                                return false;
+                            }
+                        });
+                    } else {
+                        $('table').DataTable().ajax.reload(null, false);
+                        return false;
+                    }
+                });
+            });
+    </script>
 @endpush

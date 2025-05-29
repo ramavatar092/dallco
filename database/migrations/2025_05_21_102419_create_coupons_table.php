@@ -15,11 +15,11 @@ return new class extends Migration
             $table->id('id');
             $table->string('coupon_code')->unique();
             $table->decimal('coupon_value', 10, 2);
-            $table->date('coupon_date');
+            $table->date('coupon_date')->nullable();
             $table->date('coupon_expiry');
-            $table->string('coupon_status');
-            $table->string('used_by')->nullable();
-            $table->date('stauts_date')->nullable();
+            $table->enum('coupon_status', ['used', 'notused', 'cancelled'])->default('notused');
+            $table->string('used_by')->nullable(); 
+            $table->date('status_date')->nullable(); 
             $table->text('remarks')->nullable();
             $table->timestamps();
         });

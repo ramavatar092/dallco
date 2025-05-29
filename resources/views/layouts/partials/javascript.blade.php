@@ -28,5 +28,10 @@
 <script src="{{ asset('app-assets/js/scripts/pages/dashboard-analytics.js') }}"></script>
 <!-- END: Page JS-->
 
-<!-- Toastr JS -->
+<!-- BEGIN: Toastr JS-->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+<!-- END: Toastr JS-->
+
+<!-- BEGIN: SweetAlert2 JS-->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<!-- END: SweetAlert2 JS-->

@@ -25,24 +25,25 @@
 
     <div class="mb-3 col-md-6">
         <label for="coupon_status" class="form-label">{{ __('Coupon Status') }}</label>
-        <select name="coupon_status" class="form-select @error('coupon_status') is-invalid @enderror">
-            <option value="active" {{ old('coupon_status', $coupon->coupon_status ?? '') == 'active' ? 'selected' : '' }}>Active</option>
-            <option value="inactive" {{ old('coupon_status', $coupon->coupon_status ?? '') == 'inactive' ? 'selected' : '' }}>Inactive</option>
-            <option value="used" {{ old('coupon_status', $coupon->coupon_status ?? '') == 'used' ? 'selected' : '' }}>Used</option>
+        <select name="coupon_status" class="form-control @error('coupon_status') is-invalid @enderror" id="basicSelect">
+            <option value="">Select</option>
+            <option value="used" {{ old('coupon_status', $coupon->coupon_status ?? '') == 'used' ? 'selected' : '' }}>{{ __('Used') }}</option>
+            <option value="notused" {{ old('coupon_status', $coupon->coupon_status ?? '') == 'notused' ? 'selected' : '' }}>{{ __('Not Used') }}</option>
+            <option value="cancelled" {{ old('coupon_status', $coupon->coupon_status ?? '') == 'cancelled' ? 'selected' : '' }}>{{ __('Cancelled') }}</option>
         </select>
         @error('coupon_status') <div class="invalid-feedback">{{ $message }}</div> @enderror
     </div>
 
     <div class="mb-3 col-md-6">
-        <label for="used_by" class="form-label">{{ __('Used By (User ID)') }}</label>
-        <input type="number" name="used_by" placeholder="{{ __('Enter user ID') }}" class="form-control @error('used_by') is-invalid @enderror" value="{{ old('used_by', $coupon->used_by ?? '') }}">
+        <label for="used_by" class="form-label">{{ __('Used By') }}</label>
+        <input type="number" name="used_by" placeholder="{{ __('Enter user mobile') }}" class="form-control @error('used_by') is-invalid @enderror" value="{{ old('used_by', $coupon->used_by ?? '') }}">
         @error('used_by') <div class="invalid-feedback">{{ $message }}</div> @enderror
     </div>
 
     <div class="mb-3 col-md-6">
-        <label for="stauts_date" class="form-label">{{ __('Status Date') }}</label>
-        <input type="date" name="stauts_date" class="form-control @error('stauts_date') is-invalid @enderror" value="{{ old('stauts_date', $coupon->stauts_date ?? '') }}">
-        @error('stauts_date') <div class="invalid-feedback">{{ $message }}</div> @enderror
+        <label for="status_date" class="form-label">{{ __('Status Date') }}</label>
+        <input type="date" name="status_date" class="form-control @error('status_date') is-invalid @enderror" value="{{ old('status_date', $coupon->status_date ?? '') }}">
+        @error('status_date') <div class="invalid-feedback">{{ $message }}</div> @enderror
     </div>
 
     <div class="mb-3 col-md-6">
@@ -53,7 +54,7 @@
 
     <div class="mb-3 col-md-12">
         <button type="submit" class="btn btn-success">
-            {{ isset($coupon) && $coupon->exists ? __('Update Coupon') : __('Create Coupon') }}
+            {{ isset($coupon) && $coupon->exists ? __('Update') : __('Save') }}
         </button>
         <a href="{{ route('coupons.index') }}" class="btn btn-secondary">{{ __('Cancel') }}</a>
     </div>
