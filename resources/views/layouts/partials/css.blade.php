@@ -22,4 +22,7 @@
 <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/style.css') }}">
 <!-- END: Custom CSS-->
 
+<!-- Toastr CSS -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" rel="stylesheet"/>
+
 <link href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css" rel="stylesheet"/>

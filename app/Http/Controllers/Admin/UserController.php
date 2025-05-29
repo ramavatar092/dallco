@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Http\Requests\User\StoreRequest;
+use App\Http\Requests\User\UpdateRequest;
 use App\Models\User;
 
 class UserController extends Controller
@@ -13,28 +15,8 @@ class UserController extends Controller
      */
     public function index(Request $request)
     {
-        return view('users.index');
-    }
-
-    public function getData(Request $request)
-    {
-        $query = User::query();
-
-        return DataTables::of($query)
-            ->addColumn('register_date', function ($user) {
-                // assuming you have a created_at timestamp or something similar
-                return $user->created_at->format('Y-m-d');
-                dd($user->created_at);
-            })
-            ->addColumn('account_balance', function ($user) {
-                // compute or retrieve from accessor or relationship
-                return number_format($user->account_balance, 2);
-            })
-            ->addColumn('action', function ($user) {
-                return '<a href="/users/' . $user->id . '/edit" class="btn btn-sm btn-primary">Edit</a>';
-            })
-            ->rawColumns(['action']) // to render the HTML in 'action' column
-            ->make(true);
+        $users = User::get();
+        return view('users.index', compact('users'));
     }
 
     /**
@@ -42,46 +24,69 @@ class UserController extends Controller
      */
     public function create()
     {
-        //
+        return view('users.create');
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StoreRequest $request)
     {
-        //
+        $inputs = $request->all();
+        User::create($inputs);
+
+        $notification = array(
+            'message' => trans('panel.message.store'),
+            'alert-type' =>  trans('panel.alert-type.success')
+        );
+
+        return redirect()->route('users.index')->with($notification);
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(User $user)
     {
-        //
+        return view('users.show', compact('user'));
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(User $user)
     {
-        //
+        return view('users.edit', compact('user'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(UpdateRequest $request, User $user)
     {
-        //
+        $update = $request->all();
+        $user->update($update);
+
+        $notification = array(
+            'message' => trans('panel.message.update'),
+            'alert-type' =>  trans('panel.alert-type.success')
+        );
+
+        return redirect()->route('users.index')->with($notification);
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(User $user)
     {
-        //
+        $user->delete();
+
+        $notification = array(
+            'message' => trans('panel.message.delete'),
+            'alert-type' =>  trans('panel.alert-type.success')
+        );
+
+        return redirect()->route('users.index')->with($notification);
     }
 }

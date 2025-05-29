@@ -8,7 +8,6 @@
 <!-- BEGIN: Page Vendor JS-->
 <script src="{{ asset('app-assets/vendors/js/charts/apexcharts.min.js') }}"></script>
 <script src="{{ asset('app-assets/vendors/js/extensions/dragula.min.js') }}"></script>
-<script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
 <!-- END: Page Vendor JS-->
 
 <!-- BEGIN: Theme JS-->
@@ -21,3 +20,12 @@
 <!-- BEGIN: Page JS-->
 <script src="{{ asset('app-assets/js/scripts/pages/dashboard-analytics.js') }}"></script>
 <!-- END: Page JS-->
+
+<!-- Load jQuery FIRST -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<!-- Then load DataTables -->
+<script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+
+<!-- Toastr JS -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>

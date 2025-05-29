@@ -13,9 +13,8 @@ Route::middleware(['guest'])->group(function () {
 Route::prefix('admin')->group(function () {
     Route::middleware(['auth'])->group(function () {
         Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard');
-        
+
         Route::resource('users', UserController::class);
-        Route::get('/users/data', [UserController::class, 'getData'])->name('users.data');
 
         Route::get('logout', [LoginController::class, 'logout'])->name('logout');
     });

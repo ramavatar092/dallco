@@ -14,6 +14,7 @@
     <link rel="apple-touch-icon" href="{{ asset('app-assets/images/ico/apple-icon-120.png') }}">
     <link rel="shortcut icon" type="image/x-icon" href="{{ asset('app-assets/images/ico/favicon.ico') }}">
     <link href="https://fonts.googleapis.com/css?family=Rubik:300,400,500,600%7CIBM+Plex+Sans:300,400,500,600,700" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
 
     {{-- Include CSS --}}
     @include('layouts.partials.css')
@@ -44,7 +45,7 @@
             <div class="content-header row">
                 @yield('page-header') {{-- Optional page header section --}}
             </div>
-            
+
             <div class="content-body">
                 @yield('content') {{-- Main content section --}}
             </div>
@@ -61,6 +62,14 @@
 
     {{-- Include JavaScript --}}
     @include('layouts.partials.javascript')
+
+    @if(Session::has('message'))
+        toastr.options = {
+            "closeButton": true,
+            "progressBar": true
+        };
+        toastr["{{ Session::get('alert-type', 'info') }}"]("{{ Session::get('message') }}");
+    @endif
 
     {{-- Yield for additional page-specific JS --}}
     @stack('scripts')
