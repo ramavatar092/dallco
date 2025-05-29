@@ -19,7 +19,7 @@
                             <thead>
                                 <tr>
                                     <th>{{ __('Id') }}</th>
-                                    <th>{{ __('Mobile No.') }}</th>
+                                    <th>{{ __('Mobile') }}</th>
                                     <th>{{ __('Name') }}</th>
                                     <th>{{ __('State') }}</th>
                                     <th>{{ __('Register Date') }}</th>
@@ -35,11 +35,11 @@
                                         <td>{{ $user->user_mobile }}</td>
                                         <td>{{ $user->name }}</td>
                                         <td>{{ $user->state }}</td>
-                                        <td>{{ $user->register_date }}</td>
+                                        <td>{{ optional(\Carbon\Carbon::parse($user->register_date))->format('d/m/Y') }}</td>
                                         <td>{{ $user->account_balance }}</td>
-                                        <td>
-                                            <span class="btn btn-sm btn-primary">Deactivate</span>
-                                            <span class="btn btn-sm btn-primary">Scan Log</span>
+                                        <td class="d-flex gap-2">
+                                            <span class="btn btn-sm btn-primary me-1">Deactivate</span>
+                                            <span class="btn btn-sm btn-primary me-1">Scan Log</span>
                                             <span class="btn btn-sm btn-primary">Transactions</span>
                                         </td>
                                         <td>
