@@ -38,7 +38,7 @@
                                         <td>{{ optional(\Carbon\Carbon::parse($user->register_date))->format('d/m/Y') }}</td>
                                         <td>{{ $user->account_balance }}</td>
                                         <td class="d-flex gap-2">
-                                            <span class="btn btn-sm btn-primary me-1">Deactivate</span>
+                                            <span class="btn btn-sm btn-primary me-1" data-id="{{ $user->id }}" data-status="{{ $user->status }}">Deactivate</span>
                                             <span class="btn btn-sm btn-primary me-1">Scan Log</span>
                                             <span class="btn btn-sm btn-primary">Transactions</span>
                                         </td>
@@ -71,6 +71,26 @@
 <script>
     $(document).ready(function() {
         $('#users-list-datatable').DataTable();
+
+        $(document).on('click', '.btn-toggle-status', function () {
+            let userId = $(this).data('id');
+            let currentButton = $(this);
+
+            $.ajax({
+                url: '/users/' + userId + '/toggle-status',
+                type: 'POST',
+                data: {
+                    _token: '{{ csrf_token() }}'
+                },
+                success: function (response) {
+                    // Optional: update the row or reload the table
+                    location.reload(); // easiest
+                },
+                error: function (xhr) {
+                    alert('Error updating status');
+                }
+            });
+        });
     });
 </script>
 @endpush

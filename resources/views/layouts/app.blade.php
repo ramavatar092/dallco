@@ -63,14 +63,6 @@
     {{-- Include JavaScript --}}
     @include('layouts.partials.javascript')
 
-    @if(Session::has('message'))
-        toastr.options = {
-            "closeButton": true,
-            "progressBar": true
-        };
-        toastr["{{ Session::get('alert-type', 'info') }}"]("{{ Session::get('message') }}");
-    @endif
-
     {{-- Yield for additional page-specific JS --}}
     @stack('scripts')
 

@@ -89,4 +89,17 @@ class UserController extends Controller
 
         return redirect()->route('users.index')->with($notification);
     }
+
+    public function toggleStatus($id)
+    {
+        $user = User::findOrFail($id);
+        $user->status = $user->status === 'active' ? 'deactive' : 'active';
+        $user->save();
+
+        return response()->json([
+            'success' => true,
+            'status' => $user->status
+        ]);
+    }
+
 }

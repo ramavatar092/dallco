@@ -14,6 +14,7 @@ Route::prefix('admin')->group(function () {
     Route::middleware(['auth'])->group(function () {
         Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
+        Route::post('/users/{id}/toggle-status', [UserController::class, 'toggleStatus']);
         Route::resource('users', UserController::class);
 
         Route::get('logout', [LoginController::class, 'logout'])->name('logout');

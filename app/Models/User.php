@@ -20,7 +20,7 @@ class User extends Authenticatable
     protected $fillable = [
         'user_mobile', 'name', 'city', 'address', 'state', 'register_date',
         'pincode', 'bank_ifsc', 'account_number', 'upi_code',
-        'mobile_notification_code', 'mobile_iemi', 'account_balance',
+        'mobile_notification_code', 'mobile_iemi', 'account_balance', 'status',
     ];
 
     /**
