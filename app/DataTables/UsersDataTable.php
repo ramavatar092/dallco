@@ -3,86 +3,94 @@
 namespace App\DataTables;
 
 use App\Models\User;
+use Illuminate\Database\Eloquent\Builder as QueryBuilder;
+use Yajra\DataTables\EloquentDataTable;
+use Yajra\DataTables\Html\Builder as HtmlBuilder;
 use Yajra\DataTables\Html\Button;
 use Yajra\DataTables\Html\Column;
-use Yajra\DataTables\Html\Editor\Editor;
-use Yajra\DataTables\Html\Editor\Fields;
-use Yajra\DataTables\DataTables;
+use Yajra\DataTables\Services\DataTable;
 
 class UsersDataTable extends DataTable
 {
-    /**
-     * Build DataTable class.
-     *
-     * @param mixed $query Results from query() method.
-     * @return \Yajra\DataTables\DataTableAbstract
-     */
-    public function dataTable($query)
+    public function dataTable(QueryBuilder $query): EloquentDataTable
     {
-        return datatables()
-            ->eloquent($query)
-            ->addColumn('action', 'users.action');
+        return (new EloquentDataTable($query))
+            ->addColumn('custom_action', fn(User $user) =>
+                '<div class="d-flex gap-1">
+                    <button class="btn btn-primary btn-sm update-status" data-id="'.$user->id.'">'
+                        . ($user->status == 'active' ? 'Deactivate' : 'Activate') .
+                    '</button>
+                    <button class="btn btn-info btn-sm scan-log" data-id="'.$user->id.'">Scan Log</button>
+                    <button class="btn btn-secondary btn-sm transactions" data-id="'.$user->id.'">Transactions</button>
+                </div>'
+            )
+            ->addColumn('action', fn(User $user) =>
+                '<div class="d-flex justify-content-center gap-2">
+                    <a href="' . route('users.edit', $user->id) . '" class="text-warning mx-1">
+                        <i class="fas fa-edit"></i>
+                    </a>
+                    <a href="javascript:void(0);" class="delete-row text-danger" data-id="' . $user->id . '">
+                        <i class="fas fa-trash-alt"></i>
+                    </a>
+                </div>'
+            )
+            ->rawColumns(['custom_action', 'action'])
+            ->setRowId('id');
     }
 
-    /**
-     * Get query source of dataTable.
-     *
-     * @param \App\Models\User $model
-     * @return \Illuminate\Database\Eloquent\Builder
-     */
-    public function query(User $model)
+    public function query(User $model): QueryBuilder
     {
-        return $model->newQuery();
+        return $model->orderBy('created_at', 'desc')->newQuery();
     }
 
-    /**
-     * Optional method if you want to use html builder.
-     *
-     * @return \Yajra\DataTables\Html\Builder
-     */
-    public function html()
+    public function html(): HtmlBuilder
     {
         return $this->builder()
                     ->setTableId('users-table')
                     ->columns($this->getColumns())
                     ->minifiedAjax()
-                    ->dom('Bfrtip')
                     ->orderBy(1)
-                    ->buttons(
-                        Button::make('print'),
-                        Button::make('reset'),
-                        Button::make('reload')
-                    );
+                    ->selectStyleSingle();
     }
 
-    /**
-     * Get columns.
-     *
-     * @return array
-     */
-    protected function getColumns()
+    public function getColumns(): array
     {
         return [
-            Column::computed('action')
+            Column::make('id')
+                ->title('ID')
+                ->width(60), // good for small numbers
+            Column::make('user_mobile')
+                ->title('Mobile')
+                ->width(180),
+            Column::make('name')
+                ->title('Name')
+                ->width(150),
+            Column::make('state')
+                ->title('State')
+                ->width(100),
+            Column::make('register_date')
+                ->title('Reg. Date')
+                ->width(200),
+            Column::make('account_balance')
+                ->title('Balance')
+                ->width(120),
+            Column::computed('custom_action')
+                ->title('')
                 ->exportable(false)
                 ->printable(false)
-                ->width(60)
+                ->width(300)
                 ->addClass('text-center'),
-            Column::make('id'),
-            Column::make('name'),
-            Column::make('email'),
-            Column::make('created_at'),
-            Column::make('updated_at'),
+            Column::computed('action')
+                ->title('')
+                ->exportable(false)
+                ->printable(false)
+                ->width(180)
+                ->addClass('text-center action-button'),
         ];
     }
 
-    /**
-     * Get filename for export.
-     *
-     * @return string
-     */
-    protected function filename()
+    protected function filename(): string
     {
-        return 'Users_' . date('YmdHis');
+        return 'Users_'.date('YmdHis');
     }
 }

@@ -7,16 +7,16 @@ use Illuminate\Http\Request;
 use App\Http\Requests\User\StoreRequest;
 use App\Http\Requests\User\UpdateRequest;
 use App\Models\User;
+use App\DataTables\UsersDataTable;
 
 class UserController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index(Request $request)
+    public function index(UsersDataTable $dataTable)
     {
-        $users = User::paginate(10);
-        return view('users.index', compact('users'));
+        return $dataTable->render('users.index', ['dataTable' => $dataTable]);
     }
 
     /**

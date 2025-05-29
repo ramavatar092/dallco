@@ -31,7 +31,7 @@
 
     <div class="mb-3 col-md-6">
         <label for="register_date" class="form-label">{{ __('Register Date') }}</label>
-        <input type="date" name="register_date" placeholder="{{ __('Select register date') }}" class="form-control @error('register_date') is-invalid @enderror" value="{{ old('register_date', $user->register_date ?? '') }}">
+        <input type="date" name="register_date" placeholder="{{ __('Select register date') }}" class="form-control @error('register_date') is-invalid @enderror" value="{{ old('register_date', isset($user->register_date) ? \Carbon\Carbon::createFromFormat('d/m/Y', $user->register_date)->format('Y-m-d') : '') }}">
         @error('register_date') <div class="invalid-feedback">{{ $message }}</div> @enderror
     </div>
 
@@ -72,7 +72,7 @@
     </div>
 
     <div class="mb-3 col-md-12">
-        <button type="submit" class="btn btn-success">{{ isset($user) && $user->exists ? __('Update User') : __('Create User') }}</button>
+        <button type="submit" class="btn btn-success">{{ isset($user) && $user->exists ? __('Update') : __('Save') }}</button>
         <a href="{{ route('users.index') }}" class="btn btn-secondary">{{ __('Cancel') }}</a>
     </div>
 </div>

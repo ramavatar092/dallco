@@ -20,7 +20,7 @@ class StoreRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'user_mobile'              => ['required', 'regex:/^[6-9]\d{9}$/'],
+            'user_mobile'              => ['required', 'regex:/^[6-9]\d{9}$/', 'unique:users,user_mobile'],
             'name'                     => 'required|string|max:255',
             'city'                     => 'required|string|max:255',
             'address'                  => 'required|string|max:500',

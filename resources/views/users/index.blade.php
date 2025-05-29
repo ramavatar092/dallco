@@ -14,6 +14,7 @@
                 </div>
 
                 <div class="card-body">
+<<<<<<< Updated upstream
                     <div class="table-responsive">
                         <table id="users-list-datatable" class="table">
                             <thead>
@@ -62,6 +63,10 @@
 </tbody>
 
                         </table>
+=======
+                    <div class="table table-bordered table-striped table-fixed table-responsive">
+                        {{ $dataTable->table() }}
+>>>>>>> Stashed changes
                     </div>
                 </div>
             </div>
@@ -71,29 +76,5 @@
 @endsection
 
 @push('scripts')
-<script>
-    $(document).ready(function() {
-        $('#users-list-datatable').DataTable();
-
-        $(document).on('click', '.btn-toggle-status', function () {
-            let userId = $(this).data('id');
-            let currentButton = $(this);
-
-            $.ajax({
-                url: '/users/' + userId + '/toggle-status',
-                type: 'POST',
-                data: {
-                    _token: '{{ csrf_token() }}'
-                },
-                success: function (response) {
-                    // Optional: update the row or reload the table
-                    location.reload(); // easiest
-                },
-                error: function (xhr) {
-                    alert('Error updating status');
-                }
-            });
-        });
-    });
-</script>
+    {{ $dataTable->scripts() }}
 @endpush

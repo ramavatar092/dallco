@@ -10,7 +10,16 @@ NOTE:
 PLACE HERE YOUR OWN SCSS CODES AND IF NEEDED, OVERRIDE THE STYLES FROM THE OTHER STYLESHEETS.
 WE WILL RELEASE FUTURE UPDATES SO IN ORDER TO NOT OVERWRITE YOUR STYLES IT'S BETTER LIKE THIS.  */
 
-#users-list-datatable .btn-sm {
-    padding: 2px 5px;
-    margin: 5px;
+.btn-sm, .btn-group-sm > .btn {
+    padding: 5px 5px;
+    margin: 2px;
+}
+
+.table-fixed {
+    table-layout: fixed;
+    width: 100%;
+}
+
+.scan-log {
+    width: 65px;
 }

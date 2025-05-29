@@ -3,6 +3,7 @@
 namespace App\Http\Requests\User;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class UpdateRequest extends FormRequest
 {
@@ -20,7 +21,11 @@ class UpdateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'user_mobile'              => ['required', 'regex:/^[6-9]\d{9}$/'],
+            'user_mobile'              => [
+                                                'required',
+                                                'regex:/^[6-9]\d{9}$/',
+                                                Rule::unique('users', 'user_mobile')->ignore($this->route('user'))
+                                        ],
             'name'                     => 'required|string|max:255',
             'city'                     => 'required|string|max:255',
             'address'                  => 'required|string|max:500',
