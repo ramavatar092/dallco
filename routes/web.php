@@ -18,6 +18,7 @@ Route::prefix('admin')->group(function () {
         Route::post('users/update/stauts', [UserController::class, 'updateStatus'])->name('users.updateStatus');
         Route::resource('users', UserController::class);
 
+        Route::post('/coupons/import', [CouponController::class, 'import'])->name('coupons.import');
         Route::post('coupons/update/stauts', [CouponController::class, 'updateStatus'])->name('coupons.updateStatus');
         Route::resource('coupons', CouponController::class);
         

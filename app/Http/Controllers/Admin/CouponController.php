@@ -9,6 +9,8 @@ use App\Http\Requests\Coupon\UpdateRequest;
 use Illuminate\Support\Facades\Validator;
 use App\DataTables\CouponsDataTable;
 use App\Models\Coupon;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Imports\CouponsImport;
 
 class CouponController extends Controller
 {
@@ -113,5 +115,15 @@ class CouponController extends Controller
             'message' => trans('panel.message.status') ?? 'Status updated successfully!',
             'status'  => $coupon->coupon_status
         ]);
+    }
+
+    /**
+     * import coupon
+     */
+    public function import(Request $request)
+    {
+        $request->validate(['file' => 'required|mimes:xlsx,csv']);
+        Excel::import(new CouponsImport, $request->file('file'));
+        return redirect()->back()->with('success', 'Coupons imported successfully!');
     }
 }

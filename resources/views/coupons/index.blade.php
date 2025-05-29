@@ -22,6 +22,27 @@
         </div>
     </div>
 </section>
+
+<!-- Import Modal -->
+<div class="modal fade" id="importModal" tabindex="-1" aria-labelledby="importModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <form action="{{ route('coupons.import') }}" method="POST" enctype="multipart/form-data" class="modal-content">
+      @csrf
+      <div class="modal-header">
+        <h5 class="modal-title" id="importModalLabel">Import Coupons</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <input type="file" name="file" class="form-control" accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" required>
+      </div>
+      <div class="modal-footer">
+        <button type="submit" class="btn btn-primary">Import</button>
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+      </div>
+    </form>
+  </div>
+</div>
+
 @endsection
 
 @push('scripts')

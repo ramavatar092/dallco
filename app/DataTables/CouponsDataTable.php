@@ -50,11 +50,21 @@ class CouponsDataTable extends DataTable
     public function html(): HtmlBuilder
     {
         return $this->builder()
-                    ->setTableId('coupons-table')
-                    ->columns($this->getColumns())
-                    ->minifiedAjax()
-                    ->orderBy(1)
-                    ->selectStyleSingle();
+            ->setTableId('coupons-table')
+            ->columns($this->getColumns())
+            ->minifiedAjax()
+            ->dom('Bfrtip')
+            ->orderBy(1)
+            ->selectStyleSingle()
+            ->buttons([
+                [
+                    'text' => 'Import Coupon',
+                    'className' => 'btn btn-success text-white',
+                    'action' => 'function (e, dt, node, config) {
+                        $("#importModal").modal("show");
+                    }'
+                ]
+            ]);
     }
 
     public function getColumns(): array
