@@ -17,11 +17,13 @@ class UsersDataTable extends DataTable
         return (new EloquentDataTable($query))
             ->addColumn('custom_action', fn(User $user) =>
                 '<div class="d-flex gap-1">
-                    <button id="updateStatus" class="btn btn-primary btn-sm" data-user-id="'.$user->id.'">'
-                        . ($user->status == 'active' ? 'Deactivate' : 'Activate') .
+                    <button id="updateStatus"
+                            class="btn btn-sm ' . ($user->status == 'active' ? 'btn-success' : 'btn-danger') . '"
+                            data-user-id="' . $user->id . '">'
+                        . ($user->status == 'active' ? 'Activate' : 'Deactivate') .
                     '</button>
-                    <button class="btn btn-info btn-sm scan-log" data-id="'.$user->id.'">Scan Log</button>
-                    <button class="btn btn-secondary btn-sm transactions" data-id="'.$user->id.'">Transactions</button>
+                    <button class="btn btn-info btn-sm scan-log" data-id="' . $user->id . '">Scan Log</button>
+                    <button class="btn btn-secondary btn-sm transactions" data-id="' . $user->id . '">Transactions</button>
                 </div>'
             )
             ->addColumn('action', fn(User $user) =>

@@ -20,9 +20,9 @@ return new class extends Migration
             $table->string('state');
             $table->date('register_date');
             $table->string('pincode');
-            $table->string('bank_ifsc');
-            $table->string('account_number');
-            $table->string('upi_code');
+            $table->string('bank_ifsc')->nullable();
+            $table->string('account_number')->nullable();
+            $table->string('upi_code')->nullable();
             $table->string('mobile_notification_code')->nullable();
             $table->decimal('account_balance', 10, 2)->default(0);
             $table->enum('status', ['active', 'deactive'])->default('active');

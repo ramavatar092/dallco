@@ -32,9 +32,9 @@ class UpdateRequest extends FormRequest
             'state'                    => 'required|string|max:255',
             'register_date'            => 'required|date',
             'pincode'                  => 'required|digits:6',
-            'bank_ifsc'                => 'required|string|max:20',
-            'account_number'           => 'required|string|max:50',
-            'upi_code'                 => 'required|string|max:100',
+            'bank_ifsc'                => 'nullable|string|max:20',
+            'account_number'           => 'nullable|string|max:50',
+            'upi_code'                 => 'nullable|string|max:100',
             //'mobile_notification_code' => 'nullable|string|max:10',
             'account_balance'          => 'required|numeric|min:0',
         ];
