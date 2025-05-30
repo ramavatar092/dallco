@@ -72,22 +72,22 @@ class CouponsDataTable extends DataTable
         return [
             Column::make('id')
                 ->title('ID')
-                ->width(60), // good for small numbers
+                ->width(20), // good for small numbers
             Column::make('coupon_code')
                 ->title('Coupon Code')
-                ->width(180),
+                ->width(300),
             Column::make('coupon_date')
                 ->title('Added Date')
-                ->width(150),
+                ->width(300),
             Column::make('coupon_expiry')
                 ->title('Expiry Date')
-                ->width(150),
+                ->width(300),
             Column::make('coupon_value')
                 ->title('Amount')
                 ->width(200),
             Column::make('coupon_status')
                 ->title('Status')
-                ->width(120),
+                ->width(100),
             Column::computed('custom_action')
                 ->title('')
                 ->exportable(false)
@@ -98,7 +98,7 @@ class CouponsDataTable extends DataTable
                 ->title('')
                 ->exportable(false)
                 ->printable(false)
-                ->width(180)
+                ->width(150)
                 ->addClass('text-center action-button'),
         ];
     }
