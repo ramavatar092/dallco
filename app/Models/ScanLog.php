@@ -2,54 +2,35 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
-class Coupon extends Model
+class ScanLog extends Model
 {
     use HasFactory;
 
-    protected $primaryKey = 'coupon_id';
+    // Automatically manage created_at and updated_at
+    public $timestamps = true;
 
     protected $fillable = [
-        'coupon_code',
-        'coupon_value',
-        'coupon_date',
-        'coupon_expiry',
-        'coupon_status',
-        'used_by',
-        'status_date',
-        'remarks',
-    ];
-
-    protected $casts = [
-        'coupon_date' => 'date',
-        'coupon_expiry' => 'date',
-        'status_date' => 'date',
-        'coupon_value' => 'decimal:2',
+        'user_id',
+        'coupon_id',
+        'scan_amount',
     ];
 
     /**
-     * Optionally define the user relationship (if used_by is a foreign key).
+     * Get the user that owns the scan.
      */
     public function user()
     {
-        return $this->belongsTo(User::class, 'used_by');
+        return $this->belongsTo(User::class);
     }
 
     /**
-     * Check if the coupon is expired.
+     * Get the coupon that was scanned.
      */
-    public function isExpired()
+    public function coupon()
     {
-        return now()->greaterThan($this->coupon_expiry);
-    }
-
-    /**
-     * Scope for active coupons.
-     */
-    public function scopeActive($query)
-    {
-        return $query->where('coupon_status', 'active');
+        return $this->belongsTo(Coupon::class);
     }
 }
