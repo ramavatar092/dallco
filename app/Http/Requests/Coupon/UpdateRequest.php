@@ -18,8 +18,6 @@ class UpdateRequest extends FormRequest
             'coupon_value'   => 'required|numeric|min:0',
             'coupon_date'    => 'required|date',
             'coupon_expiry'  => 'required|date|after_or_equal:coupon_date',
-            'coupon_status'  => 'required|in:used,notused,cancelled',
-            'used_by'        => 'nullable|integer',
             'stauts_date'    => 'nullable|date',
             'remarks'        => 'nullable|string|max:255',
         ];

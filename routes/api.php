@@ -11,4 +11,5 @@ Route::post('/register', [AuthController::class, 'register']);
 
 Route::prefix('user')->middleware('auth:sanctum')->group(function () {
     Route::post('/scan', [CouponScanController::class, 'store']);
+    Route::get('/scan-history', [CouponScanController::class, 'getScanHistory']);
 });

@@ -18,8 +18,6 @@ class StoreRequest extends FormRequest
             'coupon_value'   => 'required|numeric|min:0',
             'coupon_date'    => 'required|date',
             'coupon_expiry'  => 'required|date|after_or_equal:coupon_date',
-            'coupon_status'  => 'required|in:used,notused,cancelled',
-            'used_by'        => 'nullable|integer',
             'stauts_date'    => 'nullable|date',
             'remarks'        => 'nullable|string|max:255',
         ];
@@ -31,7 +29,7 @@ class StoreRequest extends FormRequest
             'coupon_code.required'   => 'The coupon code is required.',
             'coupon_code.string'     => 'The coupon code must be a string.',
             'coupon_code.unique'     => 'This coupon code has already been used.',
-            
+
             'coupon_value.required'  => 'The coupon value is required.',
             'coupon_value.numeric'   => 'The coupon value must be a number.',
             'coupon_value.min'       => 'The coupon value must be at least 0.',

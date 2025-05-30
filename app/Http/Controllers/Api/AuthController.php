@@ -104,7 +104,8 @@ class AuthController extends Controller
             'status' => true,
             'message' => 'User registered successfully.',
             'data' => [
-                'user_id' => $user->id
+                'user_id' => $user->id,
+                'mobile_number' =>  $user->user_mobile,
             ]
         ], 201);
     }

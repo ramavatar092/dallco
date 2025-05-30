@@ -114,4 +114,53 @@ class CouponScanController extends Controller
             ], 500);
         }
     }
+
+    /**
+     * Scan coupon history
+     */
+    public function getScanHistory(Request $request)
+    {
+        $user = Auth::user();
+
+        if (!$user) {
+            return response()->json([
+                'status'  => false,
+                'message' => 'User not found.'
+            ], 404);
+        }
+
+        if ($user->status === 'deactivated') {
+            return response()->json([
+                'status'  => false,
+                'message' => 'User account is deactivated.'
+            ], 403);
+        }
+
+        try {
+            $scanLogs = ScanLog::with('coupon') // eager load coupon
+                ->where('user_id', $user->id)
+                ->orderBy('created_at', 'desc')
+                ->get()
+                ->map(function ($log) {
+                    return [
+                        'coupon_code' => $log->coupon->coupon_code ?? null,
+                        'scan_amount' => $log->scan_amount,
+                        'created_at'  => $log->created_at->toDateTimeString(),
+                    ];
+                });
+
+            return response()->json([
+                'status'  => true,
+                'message' => 'Scan history retrieved successfully.',
+                'data'    => $scanLogs
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'status'  => false,
+                'message' => 'Failed to fetch scan history.',
+                'error'   => $e->getMessage()
+            ], 500);
+        }
+    }
+
 }
