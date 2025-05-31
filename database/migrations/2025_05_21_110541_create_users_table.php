@@ -25,6 +25,9 @@ return new class extends Migration
             $table->string('upi_code')->nullable();
             $table->string('mobile_notification_code')->nullable();
             $table->decimal('account_balance', 10, 2)->default(0);
+            $table->decimal('total_payout', 10, 2)->default(0);
+            $table->decimal('total_earnings', 10, 2)->default(0);
+            $table->text('remarks')->nullable();
             $table->enum('status', ['active', 'deactive'])->default('active');
             $table->timestamps();
         });

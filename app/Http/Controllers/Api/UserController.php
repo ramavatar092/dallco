@@ -4,10 +4,96 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\User;
-use Carbon\Carbon;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Auth;
+use App\Http\Resources\UserResource;
 
 class UserController extends Controller
 {
+    /**
+     * Get user details
+     */
+    public function index()
+    {
+        try {
+            if (!Auth::check()) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Unauthorized access',
+                ], 401);
+            }
 
+            $user = Auth::user();
+
+            return response()->json([
+                'success' => true,
+                'message' => 'User retrieved successfully',
+                'data'    => new UserResource(Auth::user()),
+            ], 200);
+
+        } catch (\Exception $e) {
+            return response()->json([
+                'status'  => false,
+                'message' => 'Something went wrong',
+                'error'   => $e->getMessage(),
+            ], 500);
+        }
+    }
+
+    /**
+     * Update Bank Details
+     */
+    public function updateBankDetails(Request $request)
+    {
+        try {
+            $user = Auth::user();
+
+            if (!$user) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Unauthorized',
+                ], 401);
+            }
+
+            // Validation rules
+            $validator = Validator::make($request->all(), [
+                'bank_ifsc'       => 'required|string|max:20',
+                'account_number'  => 'required|string|max:50',
+                'upi_code'        => 'nullable|string|max:50',
+            ]);
+
+            if ($validator->fails()) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Validation error',
+                    'errors'  => $validator->errors(),
+                ], 422);
+            }
+
+            // Update user bank details
+            $user->bank_ifsc = $request->bank_ifsc;
+            $user->account_number = $request->account_number;
+            $user->upi_code = $request->upi_code;
+            $user->save();
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Bank details updated successfully',
+                'data'    => [
+                    'user_id'        => $user->id,
+                    'name'           => $user->name,
+                    'bank_ifsc'      => $user->bank_ifsc,
+                    'account_number' => $user->account_number,
+                    'upi_code'       => $user->upi_code,
+                ],
+            ], 200);
+
+        } catch (\Exception $e) {
+            return response()->json([
+                'status'  => false,
+                'message' => 'Something went wrong',
+                'error'   => $e->getMessage(),
+            ], 500);
+        }
+    }
 }
