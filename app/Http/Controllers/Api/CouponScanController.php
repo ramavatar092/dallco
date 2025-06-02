@@ -144,8 +144,13 @@ class CouponScanController extends Controller
                 ->map(function ($log) {
                     return [
                         'coupon_code' => $log->coupon->coupon_code ?? null,
+<<<<<<< Updated upstream
                         'scan_amount' => $log->scan_amount,
                         'created_at'  => $log->created_at->toDateTimeString(),
+=======
+                        'scanamount'  => $log->scanamount,
+                        'timestamp'   => $log->created_at->toDateTimeString(),
+>>>>>>> Stashed changes
                     ];
                 });
 
