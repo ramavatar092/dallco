@@ -24,6 +24,7 @@ Route::prefix('admin')->group(function () {
         Route::resource('coupons', CouponController::class);
 
         Route::get('payouts', [PayoutController::class, 'index'])->name('payouts');
+        Route::post('/payouts-update', [PayoutController::class, 'update'])->name('payouts.update');
         
 
         Route::get('logout', [LoginController::class, 'logout'])->name('logout');

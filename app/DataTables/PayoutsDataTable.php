@@ -22,8 +22,8 @@ class PayoutsDataTable extends DataTable
     public function query(User $model): QueryBuilder
     {
         return $model->newQuery()
-        ->where('account_balance', '>', 250)
-        ->orderBy('created_at', 'desc');
+            ->where('account_balance', '>', 250)
+            ->orderBy('created_at', 'desc');
     }
 
     public function html(): HtmlBuilder
@@ -36,8 +36,41 @@ class PayoutsDataTable extends DataTable
                     ->orderBy(1)
                     ->selectStyleSingle()
                     ->buttons([
-                        Button::make('csv')->text('Payout CSV'),
+                        Button::make('csv')
+                            ->text('Payout CSV')
+                            ->className('btn btn-info text-white'),
+
+                        [
+                            'text' => 'Process Payout',
+                            'className' => 'btn btn-success text-white process-payout',
+                            'action' => "function(e, dt, node, config) {
+                                e.preventDefault();
+
+                                // Collect user IDs from the first column
+                                var userIds = dt.column(0).data().toArray();
+
+                                $.ajax({
+                                    url: '" . route('payouts.update') . "',
+                                    method: 'POST',
+                                    data: {
+                                        _token: '" . csrf_token() . "',
+                                        user_ids: userIds
+                                    },
+                                    success: function(response) {
+                                        dt.ajax.reload();
+
+                                        // Trigger CSV export after payout processing
+                                        dt.button('csv:name').trigger();
+                                    },
+                                    error: function(xhr, status, error) {
+                                        alert('Error processing payout: ' + xhr.responseText);
+                                    }
+                                });
+                            }"
+                        ],
                     ]);
+
+
     }
 
     public function getColumns(): array
