@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('coupon_code')->unique();
             $table->decimal('coupon_value', 10, 2);
             $table->date('coupon_date')->nullable();
-            $table->date('coupon_expiry');
+            $table->date('coupon_expiry')->nullable();
             $table->enum('coupon_status', ['used', 'notused', 'cancelled'])->default('notused');
             $table->date('status_date')->nullable();
             $table->text('remarks')->nullable();
