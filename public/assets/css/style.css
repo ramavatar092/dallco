@@ -28,14 +28,13 @@ WE WILL RELEASE FUTURE UPDATES SO IN ORDER TO NOT OVERWRITE YOUR STYLES IT'S BET
     border: 1px solid #ccc;
 }
 
-#dashboard-analytics .card-title,
-#dashboard-analytics .card-text {
+#dashboard-analytics .card-body .card-title,
+#dashboard-analytics .card-body .card-text {
     color: #ffffff;
 }
 
 #dashboard-analytics .card-title {
     font-size: 1rem;
-    margin-bottom: 0;
 }
 
 #dashboard-analytics .card-body.text-center {
