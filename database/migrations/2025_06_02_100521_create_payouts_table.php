@@ -14,6 +14,11 @@ return new class extends Migration
             $table->timestamp('payout_date')->useCurrent();
             $table->unsignedBigInteger('user_id'); // foreign key to users table
             $table->decimal('amount', 10, 2);
+            $table->date('transfer_date')->nullable();
+            $table->string('transfer_mode')->nullable();
+            $table->text('transfer_remarks')->nullable();
+            $table->enum('status', ['paid', 'unpaid'])->default('unpaid');
+
             $table->timestamps(); // created_at and updated_at
 
             // Optional: Add foreign key constraint

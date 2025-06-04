@@ -10,6 +10,10 @@ class Payout extends Model
         'payout_date',
         'user_id',
         'amount',
+        'transfer_date',
+        'transfer_mode',
+        'transfer_remarks',
+        'status',
     ];
 
     public $timestamps = true;

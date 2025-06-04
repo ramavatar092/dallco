@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\DataTables\PayoutsDataTable;
+use App\DataTables\PaidPayoutsDataTable;
 use Illuminate\Support\Facades\DB;
 use App\Models\User;
 use App\Models\Payout;
@@ -17,6 +18,14 @@ class PayoutController extends Controller
     public function index(PayoutsDataTable $dataTable)
     {
         return $dataTable->render('payouts.index', ['dataTable' => $dataTable]);
+    }
+
+    /**
+     * Display a listing of the paid payout.
+     */
+    public function paidPayoutList(PaidPayoutsDataTable $dataTable)
+    {
+        return $dataTable->render('payouts.paid_payout', ['dataTable' => $dataTable]);
     }
 
     /**

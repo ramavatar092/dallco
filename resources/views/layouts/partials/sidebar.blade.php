@@ -204,6 +204,8 @@
                 <ul class="menu-content">
                     <li><a href="{{ route('payouts') }}"><i class="bx bx-right-arrow-alt"></i><span class="menu-item" data-i18n="List">List</span></a>
                     </li>
+                    <li><a href="{{ route('previous.payouts') }}"><i class="bx bx-right-arrow-alt"></i><span class="menu-item" data-i18n="List">Previous Payouts</span></a>
+                    </li>
                 </ul>
             </li>
 
