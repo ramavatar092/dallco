@@ -27,3 +27,17 @@ WE WILL RELEASE FUTURE UPDATES SO IN ORDER TO NOT OVERWRITE YOUR STYLES IT'S BET
 #users-table tr, #users-table td {
     border: 1px solid #ccc;
 }
+
+#dashboard-analytics .card-title,
+#dashboard-analytics .card-text {
+    color: #ffffff;
+}
+
+#dashboard-analytics .card-title {
+    font-size: 1rem;
+    margin-bottom: 0;
+}
+
+#dashboard-analytics .card-body.text-center {
+    padding-top: 25px !important;
+}
