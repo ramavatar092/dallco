@@ -13,7 +13,7 @@
 
     <div class="mb-3 col-md-6">
         <label for="coupon_date" class="form-label">{{ __('Coupon Date') }}</label>
-        <input type="date" name="coupon_date" class="form-control @error('coupon_date') is-invalid @enderror" value="{{ old('coupon_date', $coupon->coupon_date ?? '') }}">
+        <input type="date" name="coupon_date" class="form-control datepicker @error('coupon_date') is-invalid @enderror" value="{{ old('coupon_date', $coupon->coupon_date ?? '') }}">
         @error('coupon_date') <div class="invalid-feedback">{{ $message }}</div> @enderror
     </div>
 
@@ -25,7 +25,7 @@
 
     <div class="mb-3 col-md-6">
         <label for="status_date" class="form-label">{{ __('Status Date') }}</label>
-        <input type="date" name="status_date" class="form-control @error('status_date') is-invalid @enderror" value="{{ old('status_date', $coupon->status_date ?? '') }}">
+        <input type="date" name="status_date" class="form-control datepicker @error('status_date') is-invalid @enderror" value="{{ old('status_date', $coupon->status_date ?? '') }}">
         @error('status_date') <div class="invalid-feedback">{{ $message }}</div> @enderror
     </div>
 

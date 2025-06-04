@@ -102,39 +102,39 @@
                 icon: "question",
                 showCancelButton: true,
                 confirmButtonText: `Update`,
-                })
-                .then((result) => {
-                    if (!result.isDismissed) {
-                        $.ajax({
-                            type: "POST",
-                            url: "{{route('coupons.updateStatus')}}",
-                            data: {
-                                _token: "{{csrf_token()}}",
-                                coupon_id: coupon_id,
-                            },
-                            success: function(response) {
-                                toastr.success(response.message, 'Success!');
-                                $('table').DataTable().ajax.reload(null, false);       
-                            },
-                            error: function(response) {
-                                let errorMessages = '';
-                                $.each(response.responseJSON.errors, function(key, value) {
-                                $.each(value, function(i, message) {
-                                    errorMessages += '<li>' + message + '</li>';
-                                });
-                                });
-                                toastr.error(errorMessages);
-                            },
-                            complete: function() {
-                                $('table').DataTable().ajax.reload(null, false);     
-                                return false;
-                            }
-                        });
-                    } else {
-                        $('table').DataTable().ajax.reload(null, false);
-                        return false;
-                    }
-                });
+            })
+            .then((result) => {
+                if (!result.isDismissed) {
+                    $.ajax({
+                        type: "POST",
+                        url: "{{route('coupons.updateStatus')}}",
+                        data: {
+                            _token: "{{csrf_token()}}",
+                            coupon_id: coupon_id,
+                        },
+                        success: function(response) {
+                            toastr.success(response.message, 'Success!');
+                            $('table').DataTable().ajax.reload(null, false);       
+                        },
+                        error: function(response) {
+                            let errorMessages = '';
+                            $.each(response.responseJSON.errors, function(key, value) {
+                            $.each(value, function(i, message) {
+                                errorMessages += '<li>' + message + '</li>';
+                            });
+                            });
+                            toastr.error(errorMessages);
+                        },
+                        complete: function() {
+                            $('table').DataTable().ajax.reload(null, false);     
+                            return false;
+                        }
+                    });
+                } else {
+                    $('table').DataTable().ajax.reload(null, false);
+                    return false;
+                }
             });
+        });
     </script>
 @endpush
