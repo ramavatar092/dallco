@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use \Carbon\Carbon;
 
 class User extends Authenticatable
 {
@@ -49,6 +50,12 @@ class User extends Authenticatable
 
     public function getRegisterDateAttribute($value)
     {
-        return \Carbon\Carbon::parse($value)->format('d/m/Y');
+        return Carbon::parse($value)->format('d/m/Y');
     }
+
+    public function payouts()
+    {
+        return $this->hasMany(Payout::class);
+    }
+
 }

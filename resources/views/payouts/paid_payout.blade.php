@@ -7,7 +7,7 @@
         <div class="card">
             <div class="card-content">
                 <div class="card-header d-flex justify-content-between align-items-center">
-                    <h5 class="mb-0">Previous Payout Lists</h5>
+                    <h5 class="mb-0">Previous Payouts</h5>
                 </div>
                 <div class="card-body">
                     <div class="table table-striped table-fixed table-responsive">

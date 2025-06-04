@@ -16,7 +16,7 @@ class PayoutsDataTable extends DataTable
     {
         return (new EloquentDataTable($query))
             ->setRowId('id')
-            ->addIndexColumn(); 
+            ->addIndexColumn();
     }
 
     public function query(User $model): QueryBuilder
@@ -29,10 +29,10 @@ class PayoutsDataTable extends DataTable
     public function html(): HtmlBuilder
     {
         return $this->builder()
-                    ->setTableId('users-table')
+                    ->setTableId('payouts-table')
                     ->columns($this->getColumns())
                     ->minifiedAjax()
-                    ->dom('Bfrtip')      
+                    ->dom('Bfrtip')
                     ->orderBy(1)
                     ->selectStyleSingle()
                     ->buttons([

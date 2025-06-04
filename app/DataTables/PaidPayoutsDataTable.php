@@ -16,14 +16,14 @@ class PaidPayoutsDataTable extends DataTable
     {
         return (new EloquentDataTable($query))
             ->setRowId('id')
-            ->addIndexColumn(); 
+            ->addIndexColumn();
     }
 
     public function query(User $model): QueryBuilder
     {
         return $model->newQuery()
             ->where('account_balance', '>', 250)
-            ->where('status',  'paid')
+            ->whereHas('payouts', fn ($q) => $q->where('status', 'paid'))
             ->orderBy('created_at', 'desc');
     }
 
@@ -33,7 +33,7 @@ class PaidPayoutsDataTable extends DataTable
                     ->setTableId('paid-payout-table')
                     ->columns($this->getColumns())
                     ->minifiedAjax()
-                    ->dom('Bfrtip')      
+                    //->dom('Bfrtip')
                     ->orderBy(1)
                     ->selectStyleSingle();
     }
