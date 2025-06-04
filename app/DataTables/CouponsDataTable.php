@@ -63,6 +63,13 @@ class CouponsDataTable extends DataTable
                     'action' => 'function (e, dt, node, config) {
                         $("#importModal").modal("show");
                     }'
+                ],
+                [
+                    'text' => 'Bulk Cancel Coupons',
+                    'className' => 'btn btn-warning text-white',
+                    'action' => 'function (e, dt, node, config) {
+                        $("#cancelCouponsModal").modal("show");
+                    }'
                 ]
             ]);
     }

@@ -11,6 +11,7 @@ use App\DataTables\CouponsDataTable;
 use App\Models\Coupon;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Imports\CouponsImport;
+use App\Imports\BulkCancelCouponsImport;
 
 class CouponController extends Controller
 {
@@ -126,4 +127,15 @@ class CouponController extends Controller
         Excel::import(new CouponsImport, $request->file('file'));
         return redirect()->back()->with('success', 'Coupons imported successfully!');
     }
+
+    /**
+     * bulk import cancel coupon
+     */
+    public function bulkImport(Request $request)
+    {
+        $request->validate(['file' => 'required|mimes:xlsx,csv']);
+        Excel::import(new BulkCancelCouponsImport, $request->file('file'));
+        return redirect()->back()->with('success', 'Bulk coupons cancelled successfully!');
+    }
+
 }

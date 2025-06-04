@@ -20,6 +20,7 @@ Route::prefix('admin')->group(function () {
         Route::resource('users', UserController::class);
 
         Route::post('/coupons/import', [CouponController::class, 'import'])->name('coupons.import');
+        Route::post('/coupons/import/cancel', [CouponController::class, 'bulkImport'])->name('coupons.cancel');
         Route::post('coupons/update/stauts', [CouponController::class, 'updateStatus'])->name('coupons.updateStatus');
         Route::resource('coupons', CouponController::class);
 

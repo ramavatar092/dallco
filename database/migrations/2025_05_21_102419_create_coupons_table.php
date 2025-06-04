@@ -14,8 +14,8 @@ return new class extends Migration
         Schema::create('coupons', function (Blueprint $table) {
             $table->id('id');
             $table->unsignedBigInteger('used_by')->nullable();
-            $table->string('coupon_code')->unique();
-            $table->decimal('coupon_value', 10, 2);
+            $table->string('coupon_code')->unique()->nullable();
+            $table->decimal('coupon_value', 10, 2)->nullable();
             $table->date('coupon_date')->nullable();
             $table->date('coupon_expiry')->nullable();
             $table->enum('coupon_status', ['used', 'notused', 'cancelled'])->default('notused');
