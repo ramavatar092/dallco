@@ -49,7 +49,7 @@
                             </div>
                         </div>
 
-                        <h4 class="mt-4 mb-3">Last 30 Days</h4>
+                        <h6 class="mt-4 mb-3">Last 30 Days</h6>
                         <div class="row">
                             <div class="col-md-3">
                                 <div class="card text-white bg-info shadow-sm">
