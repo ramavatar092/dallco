@@ -36,11 +36,11 @@ class ScanLogsDataTable extends DataTable
         $query = $model->newQuery()->with(['user', 'coupon']);
 
         if (request()->filled('start_date')) {
-            $query->whereDate('created_at', '>=', request('start_date'));
+            $query->whereDate('scan_logs.created_at', '>=', request('start_date'));
         }
 
         if (request()->filled('end_date')) {
-            $query->whereDate('created_at', '<=', request('end_date'));
+            $query->whereDate('scan_logs.created_at', '<=', request('end_date'));
         }
 
         return $query->orderBy('scan_logs.created_at', 'desc');

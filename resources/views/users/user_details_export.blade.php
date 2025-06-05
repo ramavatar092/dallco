@@ -41,21 +41,21 @@
         $.fn.dataTable.ext.errMode = 'throw';
 
         // Extend the ajax call to include date range
-        $('#scan-log-table').on('preXhr.dt', function (e, settings, data) {
+        $('#users-table').on('preXhr.dt', function (e, settings, data) {
             data.start_date = $('#start_date').val();
             data.end_date = $('#end_date').val();
         });
 
         // Trigger redraw on filter button click
         $('#filter').on('click', function () {
-            $('#scan-log-table').DataTable().draw();
+            $('#users-table').DataTable().draw();
         });
 
         // Reset filter and redraw
         $('#reset').on('click', function () {
             $('#start_date').val('');
             $('#end_date').val('');
-            $('#scan-log-table').DataTable().draw();
+            $('#users-table').DataTable().draw();
         });
 
         $(document).on('change click', '#deleteBtn', function(e) {

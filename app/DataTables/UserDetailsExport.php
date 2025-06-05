@@ -20,18 +20,22 @@ class UserDetailsExport extends DataTable
 
     public function query(User $model): QueryBuilder
     {
+        $startDate = $this->request()->get('start_date');
+        $endDate = $this->request()->get('end_date');
+
         $query = $model->newQuery()->orderBy('created_at', 'desc');
 
-        if (request()->filled('start_date')) {
-            $query->whereDate('created_at', '>=', request('start_date'));
+        if (!empty($startDate)) {
+            $query->whereDate('created_at', '>=', $startDate);
         }
 
-        if (request()->filled('end_date')) {
-            $query->whereDate('created_at', '<=', request('end_date'));
+        if (!empty($endDate)) {
+            $query->whereDate('created_at', '<=', $endDate);
         }
 
         return $query;
     }
+    
 
     public function html(): HtmlBuilder
     {
