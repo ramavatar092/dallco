@@ -18,6 +18,24 @@
         </div>
     </div>
 </section>
+
+<!-- Import Modal -->
+<div class="modal fade" id="paymentImportModal" tabindex="-1" aria-labelledby="paymentImportModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <form action="{{ route('payment.import') }}" method="POST" enctype="multipart/form-data" class="modal-content">
+      @csrf
+      <div class="modal-header">
+        <h5 class="modal-title" id="paymentImportModalLabel">Payment Recoard Import</h5>
+      </div>
+      <div class="modal-body">
+        <input type="file" name="file" class="form-control" accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" required>
+      </div>
+      <div class="modal-footer">
+        <button type="submit" class="btn btn-primary">Import</button>
+      </div>
+    </form>
+  </div>
+</div>
 @endsection
 
 @push('scripts')

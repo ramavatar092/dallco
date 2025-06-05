@@ -9,6 +9,8 @@ use App\DataTables\PaidPayoutsDataTable;
 use Illuminate\Support\Facades\DB;
 use App\Models\User;
 use App\Models\Payout;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Imports\UserPaymetImport;
 
 class PayoutController extends Controller
 {
@@ -32,7 +34,7 @@ class PayoutController extends Controller
      * payout update
      */
     public function update(Request $request)
-    {   
+    {
         $userIds = $request->user_ids;
         if(isset($userIds)){
             DB::transaction(function () use ($userIds) {
@@ -56,5 +58,15 @@ class PayoutController extends Controller
                 }
             });
         }
+    }
+
+     /**
+     * import payment
+     */
+    public function paymentImport(Request $request)
+    {
+        $request->validate(['file' => 'required|mimes:xlsx,csv']);
+        Excel::import(new UserPaymetImport, $request->file('file'));
+        return redirect()->back()->with('success', 'User payment imported successfully!');
     }
 }

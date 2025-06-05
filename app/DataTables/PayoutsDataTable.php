@@ -22,7 +22,7 @@ class PayoutsDataTable extends DataTable
     public function query(User $model): QueryBuilder
     {
         return $model->newQuery()
-            ->where('account_balance', '>', 250)
+            ->where('account_balance', '>=', 250)
             ->orderBy('created_at', 'desc');
     }
 
@@ -80,7 +80,10 @@ class PayoutsDataTable extends DataTable
                 ->title('#')
                 ->width(60)
                 ->addClass('text-center'),
-                Column::make('name')
+            Column::make('id')
+                ->title('Id')
+                ->width(60),
+            Column::make('name')
                 ->title('Name')
                 ->width(150),
             Column::make('user_mobile')
@@ -89,15 +92,15 @@ class PayoutsDataTable extends DataTable
             Column::make('account_balance')
                 ->title('Amount')
                 ->width(120),
-                Column::make('upi_code')
+            Column::make('upi_code')
                 ->title('UPI Code')
                 ->width(120),
-                Column::make('bank_ifsc')
+            Column::make('bank_ifsc')
                 ->title('Bank IFSC')
                 ->width(120),
-                Column::make('account_number')
+            Column::make('account_number')
                 ->title('Account No.')
-                ->width(120),
+                ->width(150),
         ];
     }
 

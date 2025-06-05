@@ -15,6 +15,7 @@ class CouponsImport implements ToModel, WithHeadingRow
             'coupon_value'    => $row['coupon_value'],
             'coupon_expiry'   => $this->transformDate($row['coupon_expiry']),
             'remarks'         => $row['remarks'],
+            'coupon_date'     => now(),
         ]);
     }
 

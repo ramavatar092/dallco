@@ -16,8 +16,6 @@ class Payout extends Model
         'status',
     ];
 
-    public $timestamps = true;
-
     // Relationship to User
     public function user()
     {

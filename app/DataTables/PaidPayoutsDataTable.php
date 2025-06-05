@@ -2,7 +2,7 @@
 
 namespace App\DataTables;
 
-use App\Models\User;
+use App\Models\Payout;
 use Illuminate\Database\Eloquent\Builder as QueryBuilder;
 use Yajra\DataTables\EloquentDataTable;
 use Yajra\DataTables\Html\Builder as HtmlBuilder;
@@ -16,14 +16,21 @@ class PaidPayoutsDataTable extends DataTable
     {
         return (new EloquentDataTable($query))
             ->setRowId('id')
-            ->addIndexColumn();
+            ->addIndexColumn()
+            ->editColumn('name', function ($payout) {
+                return optional($payout->user)->name ?? '—';
+            })
+            ->editColumn('status', function ($payout) {
+                return '<span class="badge bg-success">' . ucwords($payout->status) . '</span>';
+            })
+            ->rawColumns(['status']);
     }
 
-    public function query(User $model): QueryBuilder
+    public function query(Payout $model): QueryBuilder
     {
         return $model->newQuery()
-            ->where('account_balance', '>', 250)
-            ->whereHas('payouts', fn ($q) => $q->where('status', 'paid'))
+            ->with('user')
+            ->where('status', 'paid')
             ->orderBy('created_at', 'desc');
     }
 
@@ -33,9 +40,18 @@ class PaidPayoutsDataTable extends DataTable
                     ->setTableId('paid-payout-table')
                     ->columns($this->getColumns())
                     ->minifiedAjax()
-                    //->dom('Bfrtip')
+                    ->dom('Bfrtip')
                     ->orderBy(1)
-                    ->selectStyleSingle();
+                    ->selectStyleSingle()
+                    ->buttons([
+                        [
+                            'text' => 'Payment Recoard Import',
+                            'className' => 'btn btn-info text-white',
+                            'action' => 'function (e, dt, node, config) {
+                                $("#paymentImportModal").modal("show");
+                            }'
+                        ],
+                    ]);
     }
 
     public function getColumns(): array
@@ -43,26 +59,29 @@ class PaidPayoutsDataTable extends DataTable
         return [
             Column::computed('DT_RowIndex')
                 ->title('#')
-                ->width(60)
+                ->width(30)
                 ->addClass('text-center'),
-                Column::make('name')
+            Column::make('id')
+                ->title('Id')
+                ->width(30),
+            Column::make('name')
                 ->title('Name')
-                ->width(150),
-            Column::make('user_mobile')
-                ->title('Mobile')
-                ->width(180),
-            Column::make('account_balance')
+                ->width(50),
+            Column::make('amount')
                 ->title('Amount')
-                ->width(120),
-                Column::make('upi_code')
-                ->title('UPI Code')
-                ->width(120),
-                Column::make('bank_ifsc')
-                ->title('Bank IFSC')
-                ->width(120),
-                Column::make('account_number')
-                ->title('Account No.')
-                ->width(120),
+                ->width(100),
+            Column::make('transfer_date')
+                ->title('Transfer Date')
+                ->width(150),
+            Column::make('transfer_mode')
+                ->title('Transfer Mode')
+                ->width(150),
+            Column::make('transfer_remarks')
+                ->title('Transfer Remarks')
+                ->width(200),
+            Column::make('status')
+                ->title('Status')
+                ->width(100),
         ];
     }
 

@@ -58,4 +58,11 @@ class User extends Authenticatable
         return $this->hasMany(Payout::class);
     }
 
+    public function latestPaidPayout()
+    {
+        return $this->hasOne(Payout::class)
+                    ->where('status', 'paid')
+                    ->latestOfMany();
+    }
+
 }

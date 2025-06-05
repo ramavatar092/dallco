@@ -26,8 +26,9 @@ Route::prefix('admin')->group(function () {
 
         Route::get('payouts', [PayoutController::class, 'index'])->name('payouts');
         Route::get('previous-payouts', [PayoutController::class, 'paidPayoutList'])->name('previous.payouts');
+        Route::post('/payment/import', [PayoutController::class, 'paymentImport'])->name('payment.import');
         Route::post('/payouts-update', [PayoutController::class, 'update'])->name('payouts.update');
-        
+
 
         Route::get('logout', [LoginController::class, 'logout'])->name('logout');
     });
