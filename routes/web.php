@@ -6,6 +6,7 @@ use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\CouponController;
 use App\Http\Controllers\Admin\PayoutController;
+use App\Http\Controllers\Admin\ScanLogController;
 
 Route::middleware(['guest'])->group(function () {
     Route::get('/', [LoginController::class, 'showLoginForm'])->name('login');
@@ -29,6 +30,7 @@ Route::prefix('admin')->group(function () {
         Route::post('/payment/import', [PayoutController::class, 'paymentImport'])->name('payment.import');
         Route::post('/payouts-update', [PayoutController::class, 'update'])->name('payouts.update');
 
+        Route::resource('scan-logs', ScanLogController::class);
 
         Route::get('logout', [LoginController::class, 'logout'])->name('logout');
     });

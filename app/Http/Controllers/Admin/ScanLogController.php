@@ -5,14 +5,14 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\ScanLog;
-use App\DataTables\ScanLogssDataTable;
+use App\DataTables\ScanLogsDataTable;
 
 class ScanLogController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index(ScanLogssDataTable $dataTable)
+    public function index(ScanLogsDataTable $dataTable)
     {
         return $dataTable->render('scan-logs.index', ['dataTable' => $dataTable]);
     }

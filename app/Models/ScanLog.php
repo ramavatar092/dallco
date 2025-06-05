@@ -31,6 +31,6 @@ class ScanLog extends Model
      */
     public function coupon()
     {
-        return $this->belongsTo(Coupon::class);
+        return $this->belongsTo(Coupon::class, 'coupon_id', 'id');
     }
 }
