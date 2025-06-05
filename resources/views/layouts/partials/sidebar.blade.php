@@ -190,6 +190,9 @@
                 <ul class="menu-content">
                     <li><a href="{{ route('users.index') }}"><i class="bx bx-right-arrow-alt"></i><span class="menu-item" data-i18n="List">List</span></a>
                     </li>
+
+                    <li><a href="{{ route('users.details.export') }}"><i class="bx bx-right-arrow-alt"></i><span class="menu-item" data-i18n="List">User Details Export</span></a>
+                    </li>
                 </ul>
             </li>
 

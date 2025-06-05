@@ -23,8 +23,8 @@ class ScanLogsDataTable extends DataTable
             ->editColumn('coupon_code', function ($scanLog) {
                 return optional($scanLog->coupon)->coupon_code ?? '-';
             })
-            ->editColumn('created_at', function ($scanLog) {
-                return Carbon::parse($scanLog->created_at)->format('d-m-Y');
+           ->editColumn('created_at', function ($scanLog) {
+                return $scanLog->created_at->format('d-m-Y');
             })
             ->editColumn('scan_amount', function ($scanLog) {
                 return 'Rs. '. $scanLog->scan_amount;
@@ -35,12 +35,12 @@ class ScanLogsDataTable extends DataTable
     {
         $query = $model->newQuery()->with(['user', 'coupon']);
 
-        if ($start = request()->get('start_date')) {
-            $query->whereDate('scan_logs.created_at', '>=', Carbon::createFromFormat('d-m-Y', $start));
+        if (request()->filled('start_date')) {
+            $query->whereDate('created_at', '>=', request('start_date'));
         }
 
-        if ($end = request()->get('end_date')) {
-            $query->whereDate('scan_logs.created_at', '<=', Carbon::createFromFormat('d-m-Y', $end));
+        if (request()->filled('end_date')) {
+            $query->whereDate('created_at', '<=', request('end_date'));
         }
 
         return $query->orderBy('scan_logs.created_at', 'desc');
@@ -51,19 +51,9 @@ class ScanLogsDataTable extends DataTable
         return $this->builder()
             ->setTableId('scan-log-table')
             ->columns($this->getColumns())
-            ->minifiedAjax(route('scan-logs.index'))
-            ->parameters([
-                'ajax' => [
-                    'data' => 'function(d) {
-                        d.start_date = $("#start_date").val();
-                        d.end_date = $("#end_date").val();
-                    }'
-                ],
-                'responsive' => true,
-                'autoWidth' => false,
-            ])
-            ->dom('Bfrtip')
+            ->minifiedAjax()
             ->orderBy(1)
+            ->dom('Bfrtip')
             ->selectStyleSingle()
             ->buttons([
                 Button::make('csv')
@@ -80,15 +70,15 @@ class ScanLogsDataTable extends DataTable
                 ->width(50),
             Column::make('coupon.coupon_code')
                 ->title('Coupon Code')
-                ->width(100),
+                ->width(150),
             Column::make('scan_amount')
                 ->title('Coupon Value')
-                ->width(100),
+                ->width(150),
             Column::make('user_mobile')
                 ->title('User')
-                ->width(100),
+                ->width(150),
             Column::make('created_at')
-                ->title('Scanned At')
+                ->title('Date')
                 ->width(150),
         ];
     }

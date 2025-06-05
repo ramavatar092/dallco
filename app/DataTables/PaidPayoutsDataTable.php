@@ -28,10 +28,17 @@ class PaidPayoutsDataTable extends DataTable
 
     public function query(Payout $model): QueryBuilder
     {
-        return $model->newQuery()
-            ->with('user')
-            ->where('status', 'paid')
-            ->orderBy('created_at', 'desc');
+        $query = $model->newQuery()->with('user')->where('status', 'paid');
+
+        if (request()->filled('start_date')) {
+            $query->whereDate('created_at', '>=', request('start_date'));
+        }
+
+        if (request()->filled('end_date')) {
+            $query->whereDate('created_at', '<=', request('end_date'));
+        }
+
+        return $query->orderBy('created_at', 'desc');
     }
 
     public function html(): HtmlBuilder
@@ -44,9 +51,12 @@ class PaidPayoutsDataTable extends DataTable
                     ->orderBy(1)
                     ->selectStyleSingle()
                     ->buttons([
+                        Button::make('csv')
+                            ->text('Export')
+                            ->className('btn btn-info text-white'),
                         [
                             'text' => 'Payment Recoard Import',
-                            'className' => 'btn btn-info text-white',
+                            'className' => 'btn btn-success text-white',
                             'action' => 'function (e, dt, node, config) {
                                 $("#paymentImportModal").modal("show");
                             }'

@@ -8,6 +8,7 @@ use App\Http\Requests\User\StoreRequest;
 use App\Http\Requests\User\UpdateRequest;
 use Illuminate\Support\Facades\Validator;
 use App\DataTables\UsersDataTable;
+use App\DataTables\UserDetailsExport;
 use App\Models\User;
 
 class UserController extends Controller
@@ -18,6 +19,14 @@ class UserController extends Controller
     public function index(UsersDataTable $dataTable)
     {
         return $dataTable->render('users.index', ['dataTable' => $dataTable]);
+    }
+
+    /**
+     * Display a userDetailsExport
+     */
+    public function userDetailsExport(UserDetailsExport $dataTable)
+    {
+        return $dataTable->render('users.user_details_export', ['dataTable' => $dataTable]);
     }
 
     /**

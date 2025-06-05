@@ -18,6 +18,7 @@ Route::prefix('admin')->group(function () {
         Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
         Route::post('users/update/stauts', [UserController::class, 'updateStatus'])->name('users.updateStatus');
+         Route::get('users/details/export', [UserController::class, 'userDetailsExport'])->name('users.details.export');
         Route::resource('users', UserController::class);
 
         Route::post('/coupons/import', [CouponController::class, 'import'])->name('coupons.import');
