@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\DB;
 use App\Models\User;
 use App\Models\Payout;
 use Maatwebsite\Excel\Facades\Excel;
-use App\Imports\UserPaymetImport;
+use App\Imports\UserPaymentImport;
 
 class PayoutController extends Controller
 {
@@ -65,8 +65,23 @@ class PayoutController extends Controller
      */
     public function paymentImport(Request $request)
     {
-        $request->validate(['file' => 'required|mimes:xlsx,csv']);
-        Excel::import(new UserPaymetImport, $request->file('file'));
-        return redirect()->back()->with('success', 'User payment imported successfully!');
+        // Validate the uploaded file
+        $request->validate([
+            'file' => 'required|mimes:xlsx,csv,xls',
+        ]);
+
+        try {
+            Excel::import(new UserPaymentImport, $request->file('file'));
+
+            $notification = array(
+                'message' => 'User payment imported successfully!',
+                'alert-type' =>  trans('panel.alert-type.success')
+            );
+
+            return back()->with($notification);
+
+        } catch (\Exception $e) {
+            return back()->with('error', 'Import failed: ' . $e->getMessage());
+        }
     }
 }

@@ -125,7 +125,14 @@ class CouponController extends Controller
     {
         $request->validate(['file' => 'required|mimes:xlsx,csv']);
         Excel::import(new CouponsImport, $request->file('file'));
-        return redirect()->back()->with('success', 'Coupons imported successfully!');
+
+        $notification = array(
+            'message' => 'Coupons imported successfully!',
+            'alert-type' =>  trans('panel.alert-type.success')
+        );
+
+        return back()->with($notification);
+
     }
 
     /**
@@ -135,7 +142,13 @@ class CouponController extends Controller
     {
         $request->validate(['file' => 'required|mimes:xlsx,csv']);
         Excel::import(new BulkCancelCouponsImport, $request->file('file'));
-        return redirect()->back()->with('success', 'Bulk coupons cancelled successfully!');
+
+        $notification = array(
+            'message' => 'Bulk coupons cancelled successfully!',
+            'alert-type' =>  trans('panel.alert-type.success')
+        );
+
+        return back()->with($notification);
     }
 
 }

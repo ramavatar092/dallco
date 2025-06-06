@@ -6,14 +6,14 @@ use App\Models\Payout;
 use Maatwebsite\Excel\Concerns\ToModel;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
 
-class UserPaymetImport implements ToModel, WithHeadingRow
+class UserPaymentImport implements ToModel, WithHeadingRow
 {
     /**
      * Process each row from the Excel file.
      */
     public function model(array $row)
     {
-        $id = trim($row['id'] ?? '');
+        $id = $row['id'];
 
         // Skip if no ID
         if (empty($id)) {

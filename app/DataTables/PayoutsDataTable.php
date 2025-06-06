@@ -46,8 +46,10 @@ class PayoutsDataTable extends DataTable
                             'action' => "function(e, dt, node, config) {
                                 e.preventDefault();
 
-                                // Collect user IDs from the first column
-                                var userIds = dt.column(0).data().toArray();
+                                // Extract user IDs from row data
+                                var userIds = dt.rows().data().toArray().map(function(row) {
+                                    return row.id; // 'id' is the user_id
+                                });
 
                                 $.ajax({
                                     url: '" . route('payouts.update') . "',
