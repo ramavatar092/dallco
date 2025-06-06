@@ -22,7 +22,9 @@ class CouponsDataTable extends DataTable
                     $buttons .= '<button id="updateStatus" class="btn btn-danger btn-sm" data-coupon-id="' . $coupon->id . '">Cancel</button>';
                 }
 
-                $buttons .= '<button class="btn btn-info btn-sm scan-log" data-id="' . $coupon->id . '">Scan Log</button>';
+                $buttons .= '<a href="' . route('scan-logs.coupon', $coupon->id) . '" class="btn btn-info btn-sm scan-log">
+                        Scan Log
+                    </a>';
                 $buttons .= '</div>';
 
                 return $buttons;

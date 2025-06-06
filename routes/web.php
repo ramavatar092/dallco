@@ -18,7 +18,7 @@ Route::prefix('admin')->group(function () {
         Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
         Route::post('users/update/stauts', [UserController::class, 'updateStatus'])->name('users.updateStatus');
-         Route::get('users/details/export', [UserController::class, 'userDetailsExport'])->name('users.details.export');
+        Route::get('users/details/export', [UserController::class, 'userDetailsExport'])->name('users.details.export');
         Route::resource('users', UserController::class);
 
         Route::post('/coupons/import', [CouponController::class, 'import'])->name('coupons.import');
@@ -31,7 +31,13 @@ Route::prefix('admin')->group(function () {
         Route::post('/payment/import', [PayoutController::class, 'paymentImport'])->name('payment.import');
         Route::post('/payouts-update', [PayoutController::class, 'update'])->name('payouts.update');
 
-        Route::resource('scan-logs', ScanLogController::class);
+        // Filter by user
+        Route::get('scan-logs/user/{userId}', [ScanLogController::class, 'userScanLog'])->name('scan-logs.user');
+
+        // Filter by coupon
+        Route::get('scan-logs/coupon/{couponId}', [ScanLogController::class, 'couponScanLog'])->name('scan-logs.coupon');
+
+        Route::get('scan-logs', [ScanLogController::class, 'index'])->name('scan-logs.index');
 
         Route::get('logout', [LoginController::class, 'logout'])->name('logout');
     });

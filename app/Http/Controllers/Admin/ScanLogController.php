@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\ScanLog;
 use App\DataTables\ScanLogsDataTable;
+use App\DataTables\UserScanLogsDataTable;
+use App\DataTables\CouponScanLogsDataTable;
 
 class ScanLogController extends Controller
 {
@@ -14,6 +16,24 @@ class ScanLogController extends Controller
      */
     public function index(ScanLogsDataTable $dataTable)
     {
+        return $dataTable->render('scan-logs.index', ['dataTable' => $dataTable]);
+    }
+
+    /**
+     * userScanLog
+     */
+    public function userScanLog($userId)
+    {
+        $dataTable = new UserScanLogsDataTable($userId);
+        return $dataTable->render('scan-logs.index', ['dataTable' => $dataTable]);
+    }
+
+    /**
+     * couponScanLog
+     */
+    public function couponScanLog($couponId)
+    {
+        $dataTable = new CouponScanLogsDataTable($couponId);
         return $dataTable->render('scan-logs.index', ['dataTable' => $dataTable]);
     }
 

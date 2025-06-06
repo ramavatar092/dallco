@@ -22,8 +22,12 @@ class UsersDataTable extends DataTable
                             data-user-id="' . $user->id . '">'
                         . ($user->status == 'active' ? 'Activate' : 'Deactivate') .
                     '</button>
-                    <button class="btn btn-info btn-sm scan-log" data-id="' . $user->id . '">Scan Log</button>
-                    <button class="btn btn-secondary btn-sm transactions" data-id="' . $user->id . '">Transactions</button>
+                    <a href="' . route('scan-logs.user', $user->id) . '" class="btn btn-info btn-sm scan-log">
+                        Scan Log
+                    </a>
+                    <a href="' . route('payouts') . '" class="btn btn-secondary btn-sm transactions">
+                        Transactions
+                    </a>
                 </div>'
             )
             ->addColumn('action', fn(User $user) =>
