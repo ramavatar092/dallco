@@ -31,12 +31,8 @@ Route::prefix('admin')->group(function () {
         Route::post('/payment/import', [PayoutController::class, 'paymentImport'])->name('payment.import');
         Route::post('/payouts-update', [PayoutController::class, 'update'])->name('payouts.update');
 
-        // Filter by user
         Route::get('scan-logs/user/{userId}', [ScanLogController::class, 'userScanLog'])->name('scan-logs.user');
-
-        // Filter by coupon
         Route::get('scan-logs/coupon/{couponId}', [ScanLogController::class, 'couponScanLog'])->name('scan-logs.coupon');
-
         Route::get('scan-logs', [ScanLogController::class, 'index'])->name('scan-logs.index');
 
         Route::get('logout', [LoginController::class, 'logout'])->name('logout');
