@@ -23,6 +23,11 @@ class PaidPayoutsDataTable extends DataTable
             ->editColumn('status', function ($payout) {
                 return '<span class="badge bg-success">' . ucwords($payout->status) . '</span>';
             })
+            ->filterColumn('name', function ($query, $keyword) {
+                $query->whereHas('user', function ($q) use ($keyword) {
+                    $q->where('name', 'like', "%{$keyword}%");
+                });
+            })
             ->rawColumns(['status']);
     }
 

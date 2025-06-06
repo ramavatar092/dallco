@@ -2,7 +2,7 @@
 
 namespace App\DataTables;
 
-use App\Models\User;
+use App\Models\Payout;
 use Illuminate\Database\Eloquent\Builder as QueryBuilder;
 use Yajra\DataTables\EloquentDataTable;
 use Yajra\DataTables\Html\Builder as HtmlBuilder;
@@ -17,15 +17,47 @@ class PendingPayoutsDataTable extends DataTable
         return (new EloquentDataTable($query))
             ->setRowId('id')
             ->addIndexColumn()
+            ->editColumn('name', function ($payout) {
+                return optional($payout->user)->name ?? '—';
+            })
+            ->editColumn('account_number', function ($payout) {
+                return optional($payout->user)->account_number ?? '—';
+            })
+            ->editColumn('bank_ifsc', function ($payout) {
+                return optional($payout->user)->bank_ifsc ?? '—';
+            })
+            ->editColumn('upi_code', function ($payout) {
+                return optional($payout->user)->upi_code ?? '—';
+            })
             ->editColumn('status', function ($payout) {
-                return '<span class="badge bg-warning">Unpaid</span>';
+                return '<span class="badge bg-warning">' . ucwords($payout->status) . '</span>';
+            })
+            ->filterColumn('name', function ($query, $keyword) {
+                $query->whereHas('user', function ($q) use ($keyword) {
+                    $q->where('name', 'like', "%{$keyword}%");
+                });
+            })
+            ->filterColumn('account_number', function ($query, $keyword) {
+                $query->whereHas('user', function ($q) use ($keyword) {
+                    $q->where('account_number', 'like', "%{$keyword}%");
+                });
+            })
+            ->filterColumn('bank_ifsc', function ($query, $keyword) {
+                $query->whereHas('user', function ($q) use ($keyword) {
+                    $q->where('bank_ifsc', 'like', "%{$keyword}%");
+                });
+            })
+            ->filterColumn('upi_code', function ($query, $keyword) {
+                $query->whereHas('user', function ($q) use ($keyword) {
+                    $q->where('upi_code', 'like', "%{$keyword}%");
+                });
             })
             ->rawColumns(['status']);
     }
 
-    public function query(User $model): QueryBuilder
+    public function query(Payout $model): QueryBuilder
     {
-        $query = $model->newQuery()->whereHas('latestUnpaidPayout')->with('latestUnpaidPayout');
+        $query = $model->newQuery()->with('user')->where('status', 'unpaid');
 
         if (request()->filled('start_date')) {
             $query->whereDate('created_at', '>=', request('start_date'));
@@ -69,7 +101,7 @@ class PendingPayoutsDataTable extends DataTable
             Column::make('name')
                 ->title('Name')
                 ->width(150),
-            Column::make('account_balance')
+            Column::make('amount')
                 ->title('Amount')
                 ->width(120),
             Column::make('account_number')

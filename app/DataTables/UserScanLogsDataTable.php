@@ -35,6 +35,11 @@ class UserScanLogsDataTable extends DataTable
             })
             ->editColumn('scan_amount', function ($scanLog) {
                 return 'Rs. '. $scanLog->scan_amount;
+            })
+            ->filterColumn('user_mobile', function ($query, $keyword) {
+                $query->whereHas('user', function ($q) use ($keyword) {
+                    $q->where('user_mobile', $keyword);
+                });
             });
     }
 
