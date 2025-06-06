@@ -16,15 +16,26 @@ class PendingPayoutsDataTable extends DataTable
     {
         return (new EloquentDataTable($query))
             ->setRowId('id')
-            ->addIndexColumn();
+            ->addIndexColumn()
+            ->editColumn('status', function ($payout) {
+                return '<span class="badge bg-warning">Unpaid</span>';
+            })
+            ->rawColumns(['status']);
     }
 
     public function query(User $model): QueryBuilder
     {
-        return $model->newQuery()
-        ->whereHas('latestUnpaidPayout') // Only users whose latest unpaid payout exists
-        ->with('latestUnpaidPayout')     // Eager load the data
-        ->orderBy('created_at', 'desc');
+        $query = $model->newQuery()->whereHas('latestUnpaidPayout')->with('latestUnpaidPayout');
+
+        if (request()->filled('start_date')) {
+            $query->whereDate('created_at', '>=', request('start_date'));
+        }
+
+        if (request()->filled('end_date')) {
+            $query->whereDate('created_at', '<=', request('end_date'));
+        }
+
+        return $query->orderBy('created_at', 'desc');
     }
 
     public function html(): HtmlBuilder
