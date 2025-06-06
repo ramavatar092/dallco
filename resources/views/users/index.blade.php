@@ -72,48 +72,55 @@
             });
         });
 
-        $(document).on('change click', '#updateStatus', function(e) {
-            e.preventDefault();
-            var user_id = $(this).attr("data-user-id");
-            Swal.fire({
-                title: "{{ trans('global.areYouSure') }}",
-                text: "Do you want to update status of this record?",
-                icon: "question",
-                showCancelButton: true,
-                confirmButtonText: `Update`,
-                })
-                .then((result) => {
-                    if (!result.isDismissed) {
-                        $.ajax({
-                            type: "POST",
-                            url: "{{route('users.updateStatus')}}",
-                            data: {
-                                _token: "{{csrf_token()}}",
-                                user_id: user_id,
-                            },
-                            success: function(response) {
-                                toastr.success(response.message, 'Success!');
-                                $('table').DataTable().ajax.reload(null, false);
-                            },
-                            error: function(response) {
-                                let errorMessages = '';
-                                $.each(response.responseJSON.errors, function(key, value) {
-                                $.each(value, function(i, message) {
-                                    errorMessages += '<li>' + message + '</li>';
-                                });
-                                });
-                                toastr.error(errorMessages);
-                            },
-                            complete: function() {
-                                $('table').DataTable().ajax.reload(null, false);
-                                return false;
-                            }
-                        });
-                    } else {
-                        $('table').DataTable().ajax.reload(null, false);
-                        return false;
-                    }
+                $(document).on('change click', '.updateStatus', function(e) {
+                    e.preventDefault();
+                    var user_id = $(this).data("user-id");
+                    var current_status = $(this).data("user-status");
+
+                    console.log("Current status:", current_status); // Debugging
+
+                    var confirmationText = current_status === "active"
+                        ? "Do you want to suspend this user?"
+                        : "Do you want to activate this user?";
+
+                    Swal.fire({
+                        title: "{{ trans('global.areYouSure') }}",
+                        text: confirmationText,
+                        icon: "question",
+                        showCancelButton: true,
+                        confirmButtonText: `Update`,
+                    }).then((result) => {
+                        if (!result.isDismissed) {
+                            $.ajax({
+                                type: "POST",
+                                url: "{{ route('users.updateStatus') }}",
+                                data: {
+                                    _token: "{{ csrf_token() }}",
+                                    user_id: user_id,
+                                },
+                                success: function(response) {
+                                    toastr.success(response.message, 'Success!');
+                                },
+                                error: function(response) {
+                                    let errorMessages = '';
+                                    $.each(response.responseJSON.errors, function(key, value) {
+                                        $.each(value, function(i, message) {
+                                            errorMessages += '<li>' + message + '</li>';
+                                        });
+                                    });
+                                    toastr.error(errorMessages);
+                                },
+                                complete: function() {
+                                    $('table').DataTable().ajax.reload(null, false);
+                                    return false;
+                                }
+                            });
+                        } else {
+                            $('table').DataTable().ajax.reload(null, false);
+                            return false;
+                        }
+                    });
                 });
-            });
+
     </script>
 @endpush

@@ -65,4 +65,11 @@ class User extends Authenticatable
                     ->latestOfMany();
     }
 
+    public function latestUnpaidPayout()
+    {
+        return $this->hasOne(Payout::class)
+                    ->where('status', 'unpaid')
+                    ->latestOfMany(); // Gets the most recent unpaid payout
+    }
+
 }

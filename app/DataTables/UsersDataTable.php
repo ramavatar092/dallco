@@ -18,9 +18,10 @@ class UsersDataTable extends DataTable
             ->addColumn('custom_action', fn(User $user) =>
                 '<div class="d-flex gap-1">
                     <button id="updateStatus"
-                            class="btn btn-sm ' . ($user->status == 'active' ? 'btn-success' : 'btn-danger') . '"
-                            data-user-id="' . $user->id . '">'
-                        . ($user->status == 'active' ? 'Activate' : 'Deactivate') .
+                            class="btn btn-sm ' . ($user->status == 'active' ? 'btn-success' : 'btn-danger') . ' updateStatus"
+                            data-user-id="' . $user->id . '"
+                            data-user-status="' . $user->status . '">'
+                    . ($user->status == 'active' ? 'Active' : 'Deactivate') .
                     '</button>
                     <a href="' . route('scan-logs.user', $user->id) . '" class="btn btn-info btn-sm scan-log">
                         Scan Log

@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\DataTables\PayoutsDataTable;
 use App\DataTables\PaidPayoutsDataTable;
+use App\DataTables\PendingPayoutsDataTable;
 use Illuminate\Support\Facades\DB;
 use App\Models\User;
 use App\Models\Payout;
@@ -30,6 +31,13 @@ class PayoutController extends Controller
         return $dataTable->render('payouts.paid_payout', ['dataTable' => $dataTable]);
     }
 
+      /**
+     * Display a listing of the paid payout.
+     */
+   public function pendingPayoutList(PendingPayoutsDataTable $dataTable)
+    {
+        return $dataTable->render('payouts.pending_payout', ['dataTable' => $dataTable]);
+    }
     /**
      * payout update
      */

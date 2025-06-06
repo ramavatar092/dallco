@@ -27,6 +27,7 @@ Route::prefix('admin')->group(function () {
         Route::resource('coupons', CouponController::class);
 
         Route::get('payouts', [PayoutController::class, 'index'])->name('payouts');
+         Route::get('pending-payouts', [PayoutController::class, 'pendingPayoutList'])->name('pending.payouts');
         Route::get('previous-payouts', [PayoutController::class, 'paidPayoutList'])->name('previous.payouts');
         Route::post('/payment/import', [PayoutController::class, 'paymentImport'])->name('payment.import');
         Route::post('/payouts-update', [PayoutController::class, 'update'])->name('payouts.update');
