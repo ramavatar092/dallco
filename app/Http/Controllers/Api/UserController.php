@@ -130,9 +130,9 @@ class UserController extends Controller
 
             // Save message
             $message = new Message();
-            $message->message_date        = $request->date;
-            $message->message_title       = $request->title;
-            $message->message_description = $request->description;
+            $message->date        = $request->date;
+            $message->title       = $request->title;
+            $message->description = $request->description;
             $message->save();
 
             return response()->json([
