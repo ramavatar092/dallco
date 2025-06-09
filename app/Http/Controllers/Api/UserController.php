@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Resources\UserResource;
 use App\Models\Message;
+use Carbon\Carbon;
 
 class UserController extends Controller
 {
@@ -131,7 +132,7 @@ class UserController extends Controller
             // Save message
             $message = new Message();
             $message->user_id     = Auth::id();
-            $message->date        = $request->date;
+            $message->date        = Carbon::createFromFormat('d-m-Y', $request->date)->format('Y-m-d');;
             $message->title       = $request->title;
             $message->description = $request->description;
             $message->save();
