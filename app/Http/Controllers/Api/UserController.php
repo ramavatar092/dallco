@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Resources\UserResource;
+use App\Models\Message;
 
 class UserController extends Controller
 {
@@ -96,4 +97,57 @@ class UserController extends Controller
             ], 500);
         }
     }
+
+    /**
+     * User Message save
+      */
+    public function saveMessage(Request $request)
+    {
+        try {
+            $user = Auth::user();
+
+            if (!$user) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Unauthorized',
+                ], 401);
+            }
+
+            // Validate input
+            $validator = Validator::make($request->all(), [
+                'date'        => 'required|date',
+                'title'       => 'required|string|max:255',
+                'description' => 'required|string',
+            ]);
+
+            if ($validator->fails()) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Validation error',
+                    'errors'  => $validator->errors(),
+                ], 422);
+            }
+
+            // Save message
+            $message = new Message();
+            $message->message_date        = $request->date;
+            $message->message_title       = $request->title;
+            $message->message_description = $request->description;
+            $message->save();
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Message saved successfully',
+                'data'    => $message,
+            ], 200);
+
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Something went wrong',
+                'error'   => $e->getMessage(),
+            ], 500);
+        }
+    }
+
 }

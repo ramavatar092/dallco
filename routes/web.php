@@ -20,6 +20,7 @@ Route::prefix('admin')->group(function () {
         Route::post('users/update/stauts', [UserController::class, 'updateStatus'])->name('users.updateStatus');
         Route::get('users/details/export', [UserController::class, 'userDetailsExport'])->name('users.details.export');
         Route::get('/change-password', [UserController::class, 'showChangePasswordForm'])->name('change-password.form');
+        Route::get('messages', [UserController::class, 'userMessage'])->name('users.userMessage');
         Route::post('/change-password', [UserController::class, 'changePassword'])->name('change-password');
         Route::resource('users', UserController::class);
 

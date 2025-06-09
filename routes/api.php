@@ -15,4 +15,5 @@ Route::prefix('user')->middleware('auth:sanctum')->group(function () {
     Route::get('/scan-list', [CouponScanController::class, 'getScanList']);
     Route::get('/details', [UserController::class, 'index']);
     Route::post('/bank-details', [UserController::class, 'updateBankDetails']);
+    Route::post('/message', [UserController::class, 'saveMessage']);
 });

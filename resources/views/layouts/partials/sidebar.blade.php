@@ -220,6 +220,12 @@
                 </ul>
             </li>
 
+            <li class=" nav-item"><a href="#"><i class="bx bx-lock-open-alt"></i><span class="menu-title" data-i18n="User Message">User Message Lists</span></a>
+                <ul class="menu-content">
+                    <li><a href="{{ route('users.userMessage') }}"><i class="bx bx-right-arrow-alt"></i><span class="menu-item" data-i18n="List">List</span></a>
+                    </li>
+                </ul>
+            </li>
 
             {{--<li class=" nav-item"><a href="#"><i class="bx bx-building"></i><span class="menu-title" data-i18n="Starter kit">Starter kit</span></a>
                 <ul class="menu-content">
