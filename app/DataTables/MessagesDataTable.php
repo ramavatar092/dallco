@@ -14,7 +14,7 @@ class MessagesDataTable extends DataTable
     public function dataTable(QueryBuilder $query): EloquentDataTable
     {
         return (new EloquentDataTable($query))
-            ->setRowId('message_id')
+            ->setRowId('id')
             ->editColumn('name', function ($message) {
                 return optional($message->user)->name ?? '—';
             })
@@ -61,7 +61,7 @@ class MessagesDataTable extends DataTable
             Column::make('name')->title('User Name')->orderable(false)->searchable(true),
             Column::make('date')->title('Date')->width(100),
             Column::make('title')->title('Title')->width(200),
-            Column::make('description')->title('Description')->width(300),
+            Column::make(' description')->title('Description')->width(300),
         ];
     }
 
