@@ -57,11 +57,11 @@ class MessagesDataTable extends DataTable
     public function getColumns(): array
     {
         return [
-            Column::make('message_id')->title('ID')->width(60),
+            Column::make('id')->title('ID')->width(60),
             Column::make('name')->title('User Name')->orderable(false)->searchable(true),
             Column::make('date')->title('Date')->width(100),
             Column::make('title')->title('Title')->width(200),
-            Column::make(' description')->title('Description')->width(300),
+            Column::make('description')->title('Description')->width(300),
         ];
     }
 
