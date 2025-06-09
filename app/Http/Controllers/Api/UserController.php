@@ -130,7 +130,7 @@ class UserController extends Controller
 
             // Save message
             $message = new Message();
-            $message->date        = Auth::id();
+            $message->user_id     = Auth::id();
             $message->date        = $request->date;
             $message->title       = $request->title;
             $message->description = $request->description;
