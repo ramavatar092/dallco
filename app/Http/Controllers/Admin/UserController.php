@@ -10,6 +10,8 @@ use Illuminate\Support\Facades\Validator;
 use App\DataTables\UsersDataTable;
 use App\DataTables\UserDetailsExport;
 use App\Models\User;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
@@ -125,4 +127,29 @@ class UserController extends Controller
             'status'  => $user->status
         ]);
     }
+
+    public function showChangePasswordForm()
+    {
+        return view('layouts.admin.auth.resetpassword');
+    }
+
+    public function changePassword(Request $request)
+    {
+        $request->validate([
+            'current_password' => ['required', 'current_password'],
+            'new_password' => ['required', 'min:5', 'confirmed'],
+        ]);
+
+        $request->user()->update([
+            'password' => bcrypt($request->new_password),
+        ]);
+
+        $notification = array(
+            'message' => trans('Password changed successfully.'),
+            'alert-type' =>  trans('panel.alert-type.success')
+        );
+
+        return redirect()->route('dashboard')->with($notification);
+    }
+
 }

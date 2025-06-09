@@ -19,6 +19,8 @@ Route::prefix('admin')->group(function () {
 
         Route::post('users/update/stauts', [UserController::class, 'updateStatus'])->name('users.updateStatus');
         Route::get('users/details/export', [UserController::class, 'userDetailsExport'])->name('users.details.export');
+        Route::get('/change-password', [UserController::class, 'showChangePasswordForm'])->name('change-password.form');
+        Route::post('/change-password', [UserController::class, 'changePassword'])->name('change-password');
         Route::resource('users', UserController::class);
 
         Route::post('/coupons/import', [CouponController::class, 'import'])->name('coupons.import');
