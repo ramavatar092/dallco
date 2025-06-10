@@ -15,7 +15,7 @@ class PayoutsDataTable extends DataTable
     protected ?int $userId = null;
 
     // Method to set the user_id from the controller
-    public function setUserId(int $userId): self
+    public function setUserId($userId = null)
     {
         $this->userId = $userId;
         return $this;
@@ -36,7 +36,7 @@ class PayoutsDataTable extends DataTable
             $query->where('id', $this->userId);
         }
 
-        return $query->where('account_balance', '>=', 250)->orderBy('created_at', 'desc');
+        return $query->orderBy('created_at', 'desc');
     }
 
     public function html(): HtmlBuilder
