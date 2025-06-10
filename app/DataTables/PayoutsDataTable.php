@@ -12,6 +12,15 @@ use Yajra\DataTables\Services\DataTable;
 
 class PayoutsDataTable extends DataTable
 {
+    protected ?int $userId = null;
+
+    // Method to set the user_id from the controller
+    public function setUserId(int $userId): self
+    {
+        $this->userId = $userId;
+        return $this;
+    }
+
     public function dataTable(QueryBuilder $query): EloquentDataTable
     {
         return (new EloquentDataTable($query))
@@ -21,9 +30,13 @@ class PayoutsDataTable extends DataTable
 
     public function query(User $model): QueryBuilder
     {
-        return $model->newQuery()
-            ->where('account_balance', '>=', 250)
-            ->orderBy('created_at', 'desc');
+        $query = $model->newQuery();
+
+        if ($this->userId !== null) {
+            $query->where('id', $this->userId);
+        }
+
+        return $query->where('account_balance', '>=', 250)->orderBy('created_at', 'desc');
     }
 
     public function html(): HtmlBuilder

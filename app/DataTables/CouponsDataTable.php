@@ -18,14 +18,14 @@ class CouponsDataTable extends DataTable
             ->addColumn('custom_action', function(Coupon $coupon) {
                 $buttons = '<div class="d-flex gap-1">';
 
-                if ($coupon->coupon_status !== 'cancelled') {
+                if ($coupon->coupon_status !== 'cancelled' && $coupon->coupon_status !== 'used') {
                     $buttons .= '<button id="updateStatus" class="btn btn-danger btn-sm" data-coupon-id="' . $coupon->id . '">Cancel</button>';
                 }
 
-                $buttons .= '<a href="' . route('scan-logs.coupon', $coupon->id) . '" class="btn btn-info btn-sm scan-log">
-                        Scan Log
-                    </a>';
-                $buttons .= '</div>';
+                if ($coupon->coupon_status !== 'cancelled' && $coupon->coupon_status !== 'notused') {
+    $buttons .= '<a href="' . route('scan-logs.coupon', $coupon->id) . '" class="btn btn-info btn-sm scan-log">Scan Log</a>';
+    $buttons .= '</div>';
+}
 
                 return $buttons;
             })

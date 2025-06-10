@@ -26,7 +26,7 @@ class UsersDataTable extends DataTable
                     <a href="' . route('scan-logs.user', $user->id) . '" class="btn btn-info btn-sm scan-log">
                         Scan Log
                     </a>
-                    <a href="' . route('payouts') . '" class="btn btn-secondary btn-sm transactions">
+                    <a href="' . route('payouts', $user->id) . '" class="btn btn-secondary btn-sm transactions">
                         Transactions
                     </a>
                 </div>'
