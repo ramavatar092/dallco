@@ -35,7 +35,7 @@
     </div>
 
     <div class="mb-3 col-md-12">
-        <button type="submit" class="btn btn-success">{{ __('Update') }}</button>
+        <button type="submit" class="btn btn-success">{{ isset($message) && $message->exists ? __('Update') : __('Save') }}</button>
         <a href="{{ route('users.index') }}" class="btn btn-secondary">{{ __('Cancel') }}</a>
     </div>
 </div>

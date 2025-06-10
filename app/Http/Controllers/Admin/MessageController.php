@@ -4,7 +4,9 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Http\Requests\Message\StoreRequest;
 use App\Http\Requests\Message\UpdateRequest;
+use Illuminate\Support\Facades\Auth;
 use App\Models\Message;
 use App\DataTables\MessagesDataTable;
 
@@ -18,6 +20,30 @@ class MessageController extends Controller
         return $dataTable->render('users.messages.index', ['dataTable' => $dataTable]);
     }
 
+
+     /**
+     * Show the form for creating a new resource.
+     */
+    public function create()
+    {
+        return view('users.messages.create');
+    }
+
+
+
+     public function store(StoreRequest $request)
+    {
+        $inputs = $request->all();
+        $inputs['user_id'] = Auth::user()->id;
+        Message::create($inputs);
+
+        $notification = array(
+            'message' => trans('panel.message.store'),
+            'alert-type' =>  trans('panel.alert-type.success')
+        );
+
+        return redirect()->route('messages.index')->with($notification);
+    }
     /**
      * Show the form for editing the specified resource.
      */
@@ -32,6 +58,7 @@ class MessageController extends Controller
     public function update(UpdateRequest $request, Message $message)
     {
         $update = $request->all();
+        $update['user_id'] = Auth::user()->id;
         $message->update($update);
 
         $notification = array(

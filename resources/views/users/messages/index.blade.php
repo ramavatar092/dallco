@@ -8,6 +8,9 @@
             <div class="card-content">
                 <div class="card-header d-flex justify-content-between align-items-center">
                     <h5 class="mb-0">Message Lists</h5>
+                    <a href="{{ route('messages.create') }}" class="btn btn-primary">
+                        + New Message
+                    </a>
                 </div>
 
                 <div class="card-body">
