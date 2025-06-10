@@ -22,7 +22,18 @@ class MessagesDataTable extends DataTable
                 $query->whereHas('user', function ($q) use ($keyword) {
                     $q->where('name', 'like', "%{$keyword}%");
                 });
-            });
+            })
+            ->addColumn('action', fn(Message $message) =>
+                '<div class="d-flex justify-content-center gap-2">
+                    <a href="' . route('messages.edit', $message->id) . '" class="text-warning mx-1">
+                        <i class="fas fa-edit"></i>
+                    </a>
+                    <a href="javascript:void(0);" id="deleteBtn" class="text-danger" data-id="' . $message->id . '" data-url="' . route('messages.destroy', $message->id) . '">
+                        <i class="fas fa-trash-alt"></i>
+                    </a>
+                </div>'
+            )
+            ->rawColumns(['action']);
     }
 
     public function query(Message $model): QueryBuilder
@@ -62,6 +73,12 @@ class MessagesDataTable extends DataTable
             Column::make('date')->title('Date')->width(100),
             Column::make('title')->title('Title')->width(200),
             Column::make('description')->title('Description')->width(300),
+            Column::computed('action')
+                ->title('')
+                ->exportable(false)
+                ->printable(false)
+                ->width(180)
+                ->addClass('text-center action-button'),
         ];
     }
 

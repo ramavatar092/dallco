@@ -9,7 +9,6 @@ use App\Http\Requests\User\UpdateRequest;
 use Illuminate\Support\Facades\Validator;
 use App\DataTables\UsersDataTable;
 use App\DataTables\UserDetailsExport;
-use App\DataTables\MessagesDataTable;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
@@ -30,15 +29,6 @@ class UserController extends Controller
     public function userDetailsExport(UserDetailsExport $dataTable)
     {
         return $dataTable->render('users.user_details_export', ['dataTable' => $dataTable]);
-    }
-
-
-    /**
-     * Display a userMessage
-     */
-    public function userMessage(MessagesDataTable $dataTable)
-    {
-        return $dataTable->render('users.message', ['dataTable' => $dataTable]);
     }
 
     /**

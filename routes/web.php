@@ -7,6 +7,7 @@ use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\CouponController;
 use App\Http\Controllers\Admin\PayoutController;
 use App\Http\Controllers\Admin\ScanLogController;
+use App\Http\Controllers\Admin\MessageController;
 
 Route::middleware(['guest'])->group(function () {
     Route::get('/', [LoginController::class, 'showLoginForm'])->name('login');
@@ -20,9 +21,11 @@ Route::prefix('admin')->group(function () {
         Route::post('users/update/stauts', [UserController::class, 'updateStatus'])->name('users.updateStatus');
         Route::get('users/details/export', [UserController::class, 'userDetailsExport'])->name('users.details.export');
         Route::get('/change-password', [UserController::class, 'showChangePasswordForm'])->name('change-password.form');
-        Route::get('messages', [UserController::class, 'userMessage'])->name('users.userMessage');
         Route::post('/change-password', [UserController::class, 'changePassword'])->name('change-password');
+
         Route::resource('users', UserController::class);
+
+        Route::resource('messages', MessageController::class);
 
         Route::post('/coupons/import', [CouponController::class, 'import'])->name('coupons.import');
         Route::post('/coupons/import/cancel', [CouponController::class, 'bulkImport'])->name('coupons.cancel');
