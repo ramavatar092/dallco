@@ -18,5 +18,6 @@ Route::prefix('user')->middleware('auth:sanctum')->group(function () {
     Route::post('/bank-details', [UserController::class, 'updateBankDetails']);
     Route::post('/message', [UserController::class, 'saveMessage']);
 
-    Route::post('/payouts', [PayoutController::class, 'store']);
+    Route::get('/payouts', [PayoutController::class, 'index']);
+    //Route::post('/payouts', [PayoutController::class, 'store']);
 });

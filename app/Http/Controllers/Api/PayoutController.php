@@ -11,6 +11,39 @@ use Carbon\Carbon;
 
 class PayoutController extends Controller
 {
+    public function index(Request $request)
+    {
+        try {
+            $user = Auth::user();
+    
+            if (!$user) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Unauthorized',
+                ], 401);
+            }
+    
+            // Optionally, add pagination and filters
+            $payouts = Payout::where('user_id', $user->id)
+                             ->orderBy('payout_date', 'desc')
+                             ->get();
+    
+            return response()->json([
+                'success' => true,
+                'message' => 'Payouts retrieved successfully',
+                'data'    => $payouts,
+            ], 200);
+    
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Something went wrong',
+                'error'   => $e->getMessage(),
+            ], 500);
+        }
+    }
+
+    
     public function store(Request $request)
     {
         try {
