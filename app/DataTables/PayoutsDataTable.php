@@ -30,13 +30,7 @@ class PayoutsDataTable extends DataTable
 
     public function query(User $model): QueryBuilder
     {
-        $query = $model->newQuery();
-
-        if ($this->userId !== null) {
-            $query->where('id', $this->userId);
-        }
-
-        return $query->orderBy('created_at', 'desc');
+        return $model->newQuery()->where('account_balance', '>=', 250)->orderBy('created_at', 'desc');
     }
 
     public function html(): HtmlBuilder

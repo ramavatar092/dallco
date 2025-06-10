@@ -20,18 +20,18 @@ class PayoutController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(User $user, PayoutsDataTable $dataTable)
+    public function index(PayoutsDataTable $dataTable)
     {
-        $dataTable->setUserId($user->id);
-        return $dataTable->render('payouts.index', ['user' => $user]);
+        return $dataTable->render('payouts.index', ['dataTable' => $dataTable]);
     }
 
     /**
      * Display a listing of the paid payout.
      */
-    public function paidPayoutList(PaidPayoutsDataTable $dataTable)
+    public function paidPayoutList(User $user, PaidPayoutsDataTable $dataTable)
     {
-        return $dataTable->render('payouts.paid_payout', ['dataTable' => $dataTable]);
+        $dataTable->setUserId($user->id);
+        return $dataTable->render('payouts.paid_payout', ['user' => $user]);
     }
 
       /**
