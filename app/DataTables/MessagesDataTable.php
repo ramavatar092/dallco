@@ -72,7 +72,8 @@ class MessagesDataTable extends DataTable
     public function getColumns(): array
     {
         return [
-            Column::make('id')->title('ID')->width(60),
+            Column::computed('DT_RowIndex')->title('#')->width(30),
+            Column::make('id')->title('User ID')->width(60),
             Column::make('name')->title('User Name')->orderable(false)->searchable(true),
             Column::make('date')->title('Date')->width(100),
             Column::make('title')->title('Title')->width(200),
