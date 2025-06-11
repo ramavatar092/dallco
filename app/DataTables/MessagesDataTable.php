@@ -74,10 +74,10 @@ class MessagesDataTable extends DataTable
     {
         return [
             Column::computed('DT_RowIndex')->title('#')->width(30),
-            Column::make('id')->title('User ID')->width(60),
-            Column::make('name')->title('User Name')->orderable(false)->searchable(true),
+            Column::make('id')->title('User ID')->width(100),
+            Column::make('name')->title('User Name')->width(150)->orderable(false),
             Column::make('date')->title('Date')->width(100),
-            Column::make('title')->title('Title')->width(200),
+            Column::make('title')->title('Title')->width(150),
             Column::make('description')->title('Description')->width(300),
             Column::computed('action')
                 ->title('')
