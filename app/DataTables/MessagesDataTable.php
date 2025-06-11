@@ -56,7 +56,7 @@ class MessagesDataTable extends DataTable
             $query->whereDate('date', '<=', request('end_date'));
         }
 
-        return $query->orderBy('date', 'desc');
+        return $query->orderBy('created_at', 'desc');
     }
 
     public function html(): HtmlBuilder
