@@ -15,6 +15,7 @@ class MessagesDataTable extends DataTable
     {
         return (new EloquentDataTable($query))
             ->setRowId('id')
+            ->addIndexColumn()
             ->editColumn('name', function ($message) {
                 return optional($message->user)->name ?? '—';
             })
