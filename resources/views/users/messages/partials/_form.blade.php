@@ -8,17 +8,32 @@
                 $formattedDate = '';
             }
         }
+
+        $users = \App\Models\User::where('status', 'active')->pluck('name', 'id');
     @endphp
 
-    <div class="mb-3 col-md-6">
-        <label for="date" class="form-label">{{ __('Message Date') }}</label>
+    <div class="mb-3 col-md-4">
+        <label for="user_id" class="form-label">{{ __('User') }}</label>
+        <select id="user_id" name="user_id" class="form-control @error('user_id') is-invalid @enderror" required>
+            <option value="">{{ __('Select') }}</option>
+            @foreach($users as $id => $name)
+                <option value="{{ $id }}" {{ old('user_id', $message->user_id ?? '') == $id ? 'selected' : '' }}>
+                    {{ $name }}
+                </option>
+            @endforeach
+        </select>
+        @error('user_id') <div class="invalid-feedback">{{ $message }}</div> @enderror
+    </div>
+
+    <div class="mb-3 col-md-4">
+        <label for="date" class="form-label">{{ __('Date') }}</label>
         <input type="date" id="date" name="date" placeholder="{{ __('Select date') }}"
             class="form-control @error('date') is-invalid @enderror"
             value="{{ old('date', $formattedDate) }}" required>
         @error('date') <div class="invalid-feedback">{{ $message }}</div> @enderror
     </div>
 
-    <div class="mb-3 col-md-6">
+    <div class="mb-3 col-md-4">
         <label for="title" class="form-label">{{ __('Title') }}</label>
         <input type="text" id="title" name="title" placeholder="{{ __('Title') }}"
             class="form-control @error('title') is-invalid @enderror"

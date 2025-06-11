@@ -18,6 +18,10 @@ class MessagesDataTable extends DataTable
             ->editColumn('name', function ($message) {
                 return optional($message->user)->name ?? '—';
             })
+            ->editColumn('description', function ($message) {
+                $short = \Str::limit(strip_tags($message->description), 50, '...');
+                return $short;
+            })
             ->filterColumn('name', function ($query, $keyword) {
                 $query->whereHas('user', function ($q) use ($keyword) {
                     $q->where('name', 'like', "%{$keyword}%");
@@ -33,7 +37,7 @@ class MessagesDataTable extends DataTable
                     </a>
                 </div>'
             )
-            ->rawColumns(['action']);
+            ->rawColumns(['description', 'action']);
     }
 
     public function query(Message $model): QueryBuilder

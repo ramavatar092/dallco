@@ -34,7 +34,6 @@ class MessageController extends Controller
      public function store(StoreRequest $request)
     {
         $inputs = $request->all();
-        $inputs['user_id'] = Auth::user()->id;
         Message::create($inputs);
 
         $notification = array(
@@ -58,7 +57,6 @@ class MessageController extends Controller
     public function update(UpdateRequest $request, Message $message)
     {
         $update = $request->all();
-        $update['user_id'] = Auth::user()->id;
         $message->update($update);
 
         $notification = array(
